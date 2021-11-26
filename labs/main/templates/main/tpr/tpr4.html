@@ -1,0 +1,137 @@
+{% extends 'main/layout.html' %}
+
+{% block title %}ТПР лаб 3{% endblock %}
+
+{% block subject %}ТПР{% endblock %}
+
+{% block labs %}{% include 'main/tpr/tprlabsLinks.html' %}{% endblock %}
+
+{% block script %}
+    <link rel="stylesheet" href="../static/main/css/tpr3.css" type="text/css">
+    <script>
+        function createStratMatrixFunc(){
+            var colichestvoStratPlayer1 = $('#numOfstratPlayer1').val();
+            var colichestvoStratPlayer2 = $('#numOfstratPlayer2').val();
+            var stratPlayersMatrix = $('#stratMatrix');
+            for(var i = 1; i <= colichestvoStratPlayer1; i++){
+                for(var j = 1; j <= colichestvoStratPlayer2; j++){
+                    $('<input type="number" id="field' + i + '_'+ j +'" size="3" style="margin: 5px">').appendTo(stratPlayersMatrix);
+                }
+                $('<br>').appendTo(stratPlayersMatrix)
+            }
+        }
+        function culcPokazately(){
+            var stratPlayerMatrixValue = [];
+            var colichestvoStratPlayer1 = $('#numOfstratPlayer1').val();
+            var colichestvoStratPlayer2 = $('#numOfstratPlayer2').val();
+            // var numberOfIteration = $('#namberOfIteration').val();         
+
+            
+            for(var i = 1; i <= colichestvoStratPlayer1; i++){
+                var stratPlayerMatrixRow = [];
+                for(var j = 1; j <= colichestvoStratPlayer2; j++){
+                    stratPlayerMatrixRow.push($('#field' + i + '_'+ j +'').val());
+                }
+                stratPlayerMatrixValue.push(stratPlayerMatrixRow);
+            }
+            // alert(stratPlayerMatrixValue);
+
+            var numOfIteration = $('#numOfIteration').val();
+            var numStratPlayer1 = 0;
+            var numStratPlayer2 = 0;
+            var numStratPlayer1List = [];
+            var numStratPlayer2List = [];
+
+            var m = [], v = [];
+            var g = [], h = [];
+            g.length = parseInt(colichestvoStratPlayer1);
+            h.length = parseInt(colichestvoStratPlayer2)
+            g.fill(0,0);
+            h.fill(0,0);
+            for (var k = 0; k < numOfIteration; k++){
+                for (var i = 0; i< colichestvoStratPlayer1; i++){
+                    g[i] = (parseInt(stratPlayerMatrixValue[i][parseInt(numStratPlayer1)]) + g[i]);
+                    h[i] = (parseInt(stratPlayerMatrixValue[parseInt(numStratPlayer2)][i]) + h[i]);
+                }
+                var mPromejutochn = Math.min.apply(null, g);
+                var vPromejutochn = Math.max.apply(null, h);
+                m.push((mPromejutochn/(k+1)).toFixed(2));
+                v.push((vPromejutochn/(k+1)).toFixed(2));
+                numStratPlayer2 = g.indexOf(mPromejutochn); 
+                numStratPlayer1 = h.indexOf(vPromejutochn);
+                numStratPlayer1List.push(numStratPlayer1);
+                numStratPlayer2List.push(numStratPlayer2);
+            }
+            var mixStrateg1PlayerList = [];
+            var mixStrateg2PlayerList = [];
+            for (var i = 0; i< colichestvoStratPlayer1; i++){
+                mixStrateg1PlayerList.push(((numStratPlayer1List.filter(item => item === i).length)/numOfIteration).toFixed(2));
+                mixStrateg2PlayerList.push(((numStratPlayer2List.filter(item => item === i).length)/numOfIteration).toFixed(2));
+            }
+            alert(mixStrateg1PlayerList);
+            var valGtable = $('#tableMatrixGvalues')
+            for (var i=0; i<g.length; i++){
+                var row = $('<tr></tr>').appendTo(valGtable);
+                $('<td></td>').text('g['+ (i+1) + ']').appendTo(row);
+                $('<td></td>').text(g[i]).appendTo(row);
+                $('<td></td>').text('h['+ (i+1) + ']').appendTo(row);
+                $('<td></td>').text(h[i]).appendTo(row);
+                $('<td></td>').text(i+1).appendTo(row);
+                $('<td></td>').text(mixStrateg1PlayerList[i]).appendTo(row);
+                $('<td></td>').text(i+1).appendTo(row);
+                $('<td></td>').text(mixStrateg2PlayerList[i]).appendTo(row);
+            }
+            
+            // for (var j = 0; j< colichestvoStratPlayer2; j++){                    
+            //         h.push(stratPlayerMatrixValue[numStratPlayer2][j]);
+            //     }
+            // alert(g);
+        }
+
+    </script>
+{% endblock %}
+
+{% block content %}
+    <section id="nameLab3">
+        <h1>Лабораторная работа №3</h1>
+        <p>Метод Брауна-Робинсона</p>
+    </section>
+    <section id="mainInfLab3">
+        <h5 style="font-weight: bold;">Цель работы:</h5>
+        <p>Целью работы является реализация решения матричной игры итерационным методом Брауна-Робинсона с заданной точностью.</p>
+        <h5 style="font-weight: bold;">Задачи:</h5>
+        <p>1. Изучение итерационного метода Брауна - Робинсона.<br>
+           2. Реализация метода Брауна - Робинсона с заданной точностью.</p>
+    </section>
+    <section id="calcLab3">
+        <h5 style="font-weight: bold;">Введите значения количества стратегий для 1 и 2 игроков:</h5>
+        <p><label for="textField">Количество стратегий 1 игрока:</label>
+            <input type="text" id="numOfstratPlayer1" ></p>
+        <p><label for="textField">Количество стратегий 2 игрока:</label>
+            <input type="text" id="numOfstratPlayer2"></p>
+        <p><label for="textfield">Введите количество итераций:</label>
+            <input type="text" id="numOfIteration"></p>
+        <p><label for="textField">Создать матрицу стратегий:</label>
+            <button id="createStratMatrix" onclick="createStratMatrixFunc()">Создать</button></p>
+    </section>
+    <section id=stratMatrixsection>
+        <h5 style="font-weight: bold;">Матрица стратегий:</h5>
+        <div id="stratMatrix" style="align-content: center;"></div>
+        <p><label for="textField">Расчитать показатели:</label>
+            <button id="readStratMatrix" onclick="culcPokazately()">Создать</button></p>
+    </section>
+    <section id="valueGandHofPlayers">
+        <table id="tableMatrixGvalues"  border="1" cellpadding="4" cellspacing="0">
+            <tr>
+                <td>g[i] :</td>
+                <td>Значение :</td>
+                <td>h[i] :</td>
+                <td>Значение :</td>
+                <td>№ стратегии :</td>
+                <td>Значение mix страт. 1 игрока :</td>
+                <td>№ стратегии :</td>
+                <td>Значение mix страт. 2 игрока :</td>
+            </tr>
+        </table>
+    </section>
+{% endblock %}

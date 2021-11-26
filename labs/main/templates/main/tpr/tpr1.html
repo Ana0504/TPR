@@ -1,0 +1,247 @@
+{% extends 'main/layout.html' %}
+
+{% block title %}ТПР лаб 1{% endblock %}
+
+{% block subject %}ТПР{% endblock %}
+
+{% block labs %}{% include 'main/tpr/tprlabsLinks.html' %}{% endblock %}
+
+
+
+{% block script %}
+<link rel="stylesheet" href="../static/main/css/tpr2.css" type="text/css">
+<script type="text/javascript" src="../static/main/js/raphael.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/graphdracula/1.0.3/dracula.min.js"></script>
+
+<script>
+    function calculateGraph1(){
+        var dohodGoodGood, stratGoodGood, dohodGoodBad, stratGoodBad,
+            dohodBadGood, stratBadGood, dohodBadBad, stratBadBad;
+        var sumGood = 0.00;
+        var sumBad = 0.00;
+        var sumGoodList = [];
+        var sumBadList = [];
+        var stratGoodGoodList = [];
+        var stratGoodBadList = [];
+        var stratBadGoodList = [];
+        var stratBadBadList = [];
+        var dohodGoodGoodList = [];
+        var dohodGoodBadList = [];
+        var dohodBadGoodList = [];
+        var dohodBadBadList = [];
+        $('#tableStrategys').find("td:nth-child(2)").each(function()
+        {
+            stratGoodGood=$(this).html();
+            stratGoodGoodList.push(parseFloat(stratGoodGood.replace(/,/, '.')));
+            return stratGoodGoodList;
+        });
+        
+        $('#tableStrategys').find("td:nth-child(3)").each(function()
+        {
+            stratGoodBad=$(this).html();
+            stratGoodBadList.push(parseFloat(stratGoodBad.replace(/,/, '.')));
+            return stratGoodBadList;
+        });
+        $('#tableStrategys').find("td:nth-child(4)").each(function()
+        {
+            stratBadGood=$(this).html();
+            stratBadGoodList.push(parseFloat(stratBadGood.replace(/,/, '.')));
+            return stratBadGoodList;
+        });
+        $('#tableStrategys').find("td:nth-child(5)").each(function()
+        {
+            stratBadBad=$(this).html();
+            stratBadBadList.push(parseFloat(stratBadBad.replace(/,/, '.')));
+            return stratBadBadList;
+        });
+        $('#tableDohods').find("td:nth-child(2)").each(function()
+        {
+            dohodGoodGood=$(this).html();
+            dohodGoodGoodList.push(parseFloat(dohodGoodGood.replace(/,/, '.')));
+            return dohodGoodGoodList;
+        });
+        $('#tableDohods').find("td:nth-child(3)").each(function()
+        {
+            dohodGoodBad=$(this).html();
+            dohodGoodBadList.push(parseFloat(dohodGoodBad.replace(/,/, '.')));
+            return dohodGoodBadList;
+        });
+        $('#tableDohods').find("td:nth-child(4)").each(function()
+        {
+            dohodBadGood=$(this).html();
+            dohodBadGoodList.push(parseFloat(dohodBadGood.replace(/,/, '.')));
+            return dohodBadGoodList;
+        });
+        $('#tableDohods').find("td:nth-child(5)").each(function()
+        {
+            dohodBadBad=$(this).html();
+            dohodBadBadList.push(parseFloat(dohodBadBad.replace(/,/, '.')));
+            return dohodBadBadList;
+        });
+        for (var i = 0; i < stratGoodGoodList.length; i++){
+            sumGood = dohodGoodGoodList[i]*stratGoodGoodList[i] + dohodGoodBadList[i]*stratGoodBadList[i];
+            sumGoodList.push(parseFloat(sumGood.toFixed(2)));
+            sumBad = dohodBadGoodList[i]*stratBadGoodList[i] + dohodBadBadList[i]*stratBadBadList[i];
+            sumBadList.push(parseFloat(sumBad.toFixed(2)));
+        }
+        
+        var matrixOjidDohods = $('#tableMatrixOjidDohods');
+        for(var i = 0; i < sumGoodList.length; i++){
+            var row = $('<tr></tr>').appendTo(matrixOjidDohods);
+            $('<td></td>').text(i+1).appendTo(row);
+            $('<td></td>').text("Удов.").appendTo(row);
+            $('<td></td>').text(sumGoodList[i]).appendTo(row);
+            $('<td></td>').text("Плохое").appendTo(row);
+            $('<td></td>').text(sumBadList[i]).appendTo(row);
+        }  
+        var numOfModelirovanija = $('#numberOfModeling').val();
+        var polnOjidDohodGood = 0.0;
+        var polnOjidDohodBad = 0.0;
+        var polnOjidDohodGoodList = [];
+        var polnOjidDohodBadList = [];
+        var polnOjidDohod = [];       
+        var numSrategyGoodList = [];
+        var numSrategyBadList = [];                    
+        for(var j = 0; j < numOfModelirovanija; j++){
+            polnOjidDohodGoodList = [];
+            polnOjidDohodBadList = [];
+
+            for(var i = 0; i< sumBadList.length; i++){
+                var a = sumGoodList[i] + stratGoodGoodList[i]*polnOjidDohodGood + stratGoodBadList[i]*polnOjidDohodBad;
+                var b = sumBadList[i] + stratBadGoodList[i]*polnOjidDohodGood + stratBadBadList[i]*polnOjidDohodBad;
+                polnOjidDohodGoodList.push(parseFloat(a.toFixed(2)));
+                polnOjidDohodBadList.push(parseFloat(b.toFixed(2)));
+            }
+            polnOjidDohodGood = Math.max.apply(null, polnOjidDohodGoodList);
+            polnOjidDohodBad = Math.max.apply(null,polnOjidDohodBadList); 
+            numSrategyGoodList.push(polnOjidDohodGoodList.indexOf(polnOjidDohodGood) +1);
+            numSrategyBadList.push(polnOjidDohodBadList.indexOf(polnOjidDohodBad) +1);
+
+            polnOjidDohod.push([polnOjidDohodGood,polnOjidDohodBad]) ;
+        }
+        var matrixPolnOjidDohods = $('#tableMatrixPolnOjidDohods');
+        for(var i = 0; i < numOfModelirovanija; i++){
+            var row = $('<tr></tr>').appendTo(matrixPolnOjidDohods);
+            $('<td></td>').text(i+1).appendTo(row);
+            $('<td></td>').text("Удов.").appendTo(row);
+            $('<td></td>').text(polnOjidDohod[i][0]).appendTo(row);
+            $('<td></td>').text(numSrategyGoodList[i]).appendTo(row);
+            $('<td></td>').text("Плохое").appendTo(row);
+            $('<td></td>').text(polnOjidDohod[i][1]).appendTo(row);
+            $('<td></td>').text(numSrategyBadList[i]).appendTo(row);
+        } 
+        var canvas = document.getElementById('graph')
+        var paper = new Raphael(canvas, 1000, 200);
+        for (var i = 1; i<= numOfModelirovanija; i++)
+        {
+            var circle = paper.circle(50 + (i - 1) * 150, 40, 20);
+            var text = paper.text(50 + (i - 1) * 150, 40, "1").attr({'font-size': 15});
+            var circle1 = paper.circle(50 + (i - 1) * 150, 150, 20);
+            var text = paper.text(50 + (i - 1) * 150, 150, "2").attr({'font-size': 15});
+
+            if (i != numOfModelirovanija){
+                var pathGoodGood = paper.path("M "+ (50 + (i - 1) * 150 + 20) +",40 L " + (50 + i * 150 - 20) + ",40");
+                var pathGoodBad = paper.path("M "+ (50 + (i - 1) * 150 + 20) +",40 L " + (50 + i * 150 - 20) + ",150");
+                var pathBadGood = paper.path("M "+ (50 + (i - 1) * 150 + 20) +",150 L " + (50 + i * 150 - 20) + ",40");
+                var pathBadBad = paper.path("M "+ (50 + (i - 1) * 150 + 20) +",150 L " + (50 + i * 150 - 20) + ",150");
+                if (numSrategyGoodList[i]==1){
+                    pathGoodGood.attr({stroke:'#1e90ff'});
+                    pathGoodBad.attr({stroke:'#1e90ff'});
+                    pathBadGood.attr({stroke:'#1e90ff'})
+                    pathBadBad.attr({stroke:'#1e90ff'})
+                }
+                if (numSrategyGoodList[i]==2){
+                    pathGoodGood.attr({stroke:'#db7093'});
+                    pathGoodBad.attr({stroke:'#db7093'});
+                    pathBadGood.attr({stroke:'#db7093'})
+                    pathBadBad.attr({stroke:'#db7093'})
+                }
+                if (numSrategyGoodList[i]==3){
+                    pathGoodGood.attr({stroke:'#00a86b'});
+                    pathGoodBad.attr({stroke:'#00a86b'});
+                    pathBadGood.attr({stroke:'#00a86b'})
+                    pathBadBad.attr({stroke:'#00a86b'})
+                }
+            }
+        }         
+    }
+</script>
+{% endblock %}
+
+{% block content %}
+   
+    <div class="row">
+        <h1>Лабораторная работа №1</h1>
+        <div class="col-1-4" id="tpr1Goal">Цель работы:</div>
+        <div class="col-3-4">Целью работы является освоение способов принятия решений в условиях риска.</div>
+        <div class="col-1-4" id="tpr1Task">Задача:</div>
+        <div class="col-3-4">1. Изучение рекурентного метода дискретных марковских процессов (ДМП).</div>
+        <div class="col-3-4">2. Реализация алгоритма для решения конкретной задачи.</div>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <h3>Тестовый пример</h3>
+            <input type="file" name="myfileStrategy">
+            <input type="file" name="myfileDohods">
+            <input id="numberOfModeling" type="text">
+            <button type="submit" id="buttonUpload">Обновить БД</button>
+            <button type="button" id="calculateGraph" onclick="calculateGraph1()">Тест</button>
+            
+            <h3>Матрица переходных вероятностей для тестового примера</h3>
+            <table id="tableStrategys" style="width:100%", border="1", cellpadding="4" cellspacing="0">
+                <!-- <caption>Матрица переходных вероятностей</caption> -->
+                <tr>
+                    <th>Номер</th><th>Удов-удов</th><th>Удов-плохо</th><th>Плохо-удов</th><th>Плохо-плохо</th>
+                </tr>
+                {% for strat in strats %}
+                    <tr>
+                        <td>{{strat}}</td>
+                        <td>{{strat.good_good}}</td>
+                        <td>{{strat.good_bad}}</td>
+                        <td>{{strat.bad_good}}</td>
+                        <td>{{strat.bad_bad}}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+            <h3>Матрица доходностей для тестового примера</h3>
+            <table id="tableDohods" style="width:100%", border="1", cellpadding="4" cellspacing="0">
+                <!-- <caption>Матрица доходностей</caption> -->
+                <tr>
+                    <th>Номер</th><th>Удов-удов</th><th>Удов-плохо</th><th>Плохо-удов</th><th>Плохо-плохо</th>
+                </tr>
+                {% for dohod in dohods %}
+                    <tr>
+                        <td>{{dohod}}</td>
+                        <td>{{dohod.good_good}}</td>
+                        <td>{{dohod.good_bad}}</td>
+                        <td>{{dohod.bad_good}}</td>
+                        <td>{{dohod.bad_bad}}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+            <h3>Матрица ожидаемых доходностей для тестового примера</h3>
+            <table id="tableMatrixOjidDohods" style="width:100%", border="1", cellpadding="4" cellspacing="0">
+                <tr>
+                    <th>Номер стратегии</th><th>Состояние</th><th>Значение ожидаемого дохода</th><th>Состояние</th><th>Значение ожидаемого дохода</th>
+                </tr>
+            </table>
+            <h3>Матрица полных ожидаемых доходностей на каждом этапе моделирования для тестового примера</h3>
+            <table id="tableMatrixPolnOjidDohods" style="width:100%", border="1", cellpadding="4" cellspacing="0">
+                <tr>
+                    <th>Этап моделирования</th><th>Состояние</th><th>Значение полн. ожид. дохода</th><th>Ном. стратегии</th><th>Состояние</th><th>Значение полн. ожид. дохода</th><th>Ном. стратегии</th>
+                </tr>
+            </table>
+            <h3>Граф тесового примера</h3>
+            <div id="canvas">
+                <div class="legend">
+                    <p class="title">Легенда:</p>    
+                    <ul class="caption-list">
+                      <li class="caption-item">1 стратегия</li>
+                      <li class="caption-item">2 стратегия</li>
+                      <li class="caption-item">3 стартегия</li>
+                    </ul>
+                  </div>
+                <div id="graph"></div>
+            </div>
+        </form>
+    </div>    
+{% endblock %}

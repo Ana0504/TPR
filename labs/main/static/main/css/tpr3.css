@@ -1,0 +1,44 @@
+#nameLab3, #mainInfLab3, #calcLab3 {
+    width: 80vw;
+    padding-left: 20px;
+    padding-bottom: 15px;
+    padding-top: 20px;
+    padding-bottom: 15px;
+}
+
+#stratMatrixsection {
+    padding-left: 20px;
+}
+
+
+
+#nameLab3 {
+    border-bottom: 5px solid #FF9200;
+}
+
+#mainInfLab3 {
+    border-bottom: 3px dashed #FF9200;
+}
+
+#numOfstratPlayer1, #numOfstratPlayer2, #numOfIteration {
+    margin: 5px;
+    border-radius: 3px;
+    width: 100px;
+}
+
+p {
+    margin: 0;
+}
+
+.col-4, .col-8 {
+    display: table-cell; 
+}
+
+#tableMatrixGvalues {
+    width: 80%;
+    margin: 20px 20px;
+}
+
+td, tr{
+    border: 1px solid black;
+}

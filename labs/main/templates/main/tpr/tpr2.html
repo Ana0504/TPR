@@ -1,0 +1,298 @@
+{% extends 'main/layout.html' %}
+
+{% block title %}ТПР лаб 1.2{% endblock %}
+
+{% block subject %}ТПР{% endblock %}
+
+{% block labs %}{% include 'main/tpr/tprlabsLinks.html' %}{% endblock %}
+
+{% block script %}
+    <link rel="stylesheet" href="../static/main/css/tpr2.css" type="text/css">
+    <script type="text/javascript" src="../static/main/js/raphael.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/graphdracula/1.0.3/dracula.min.js"></script>
+    <script>
+        function calculateGraph1Example(){
+            var sumOne = 0.00, sumTwo = 0.00, sumThree = 0.00;
+            var sumOneList = [], sumTwoList = [], sumThreeList = [];
+            var stratList = [], dohodList = [],
+                stratsList = [], dohodsList = [];
+
+            for (var i = 2; i <= 10; i++)
+            {
+                stratList = [];
+                $('#tableStrategysExample').find("td:nth-child(" + i + ")").each(function()
+                {
+                    return (stratList.push(parseFloat($(this).html().replace(/,/, '.'))));
+                });
+                stratsList.push(stratList);
+
+                dohodList = [];
+                $('#tableDohodsExample').find("td:nth-child(" + i + ")").each(function()
+                {
+                    return (dohodList.push(parseFloat($(this).html().replace(/,/, '.'))));
+                });
+                dohodsList.push(dohodList);
+            }
+
+            // alert(dohodsList);
+            
+            for (var i = 0; i < 3; i++)
+            {
+                sumOne = dohodsList[0][i]*stratsList[0][i] + dohodsList[1][i]*stratsList[1][i] + dohodsList[2][i]*stratsList[2][i];
+                sumOneList.push(parseFloat(sumOne.toFixed(2)));
+                sumTwo = dohodsList[3][i]*stratsList[3][i] + dohodsList[4][i]*stratsList[4][i] + dohodsList[5][i]*stratsList[5][i];
+                sumTwoList.push(parseFloat(sumTwo.toFixed(2)));
+                sumThree = dohodsList[6][i]*stratsList[6][i] + dohodsList[7][i]*stratsList[7][i] + dohodsList[8][i]*stratsList[8][i];
+                sumThreeList.push(parseFloat(sumThree.toFixed(2)));
+            }
+
+            // alert(sumThreeList);
+            
+            var matrixOjidDohods = $('#tableMatrixOjidDohodsExample');
+            for(var i = 0; i < sumOneList.length; i++){
+                var row = $('<tr></tr>').appendTo(matrixOjidDohods);
+                $('<td></td>').text(i+1).appendTo(row);
+                $('<td></td>').text("Сост.1").appendTo(row);
+                $('<td></td>').text(sumOneList[i]).appendTo(row);
+                $('<td></td>').text("Сост.2").appendTo(row);
+                $('<td></td>').text(sumTwoList[i]).appendTo(row);
+                $('<td></td>').text("Сост.3").appendTo(row);
+                $('<td></td>').text(sumThreeList[i]).appendTo(row);
+            }
+            // alert(stratsList);
+
+            var numOfModelirovanija = $('#numberOfModelingExample').val();
+            var polnOjidDohodOne = 0.0, polnOjidDohodTwo = 0.0, polnOjidDohodThree = 0.0;
+            var polnOjidDohodOneList = [], polnOjidDohodTwoList = [], polnOjidDohodThreeList = [];
+            var numSrategyOneList = [], numSrategyTwoList = [], numSrategyThreeList = [];
+            var polnOjidDohodExample = [];       
+
+            for(var j = 0; j < numOfModelirovanija; j++){
+                polnOjidDohodOneList = [];
+                polnOjidDohodTwoList = [];
+                polnOjidDohodThreeList = [];
+
+                for(var i = 0; i< sumOneList.length; i++){
+                    var a = sumOneList[i] + polnOjidDohodOne*stratsList[0][i] + polnOjidDohodTwo*stratsList[1][i] + polnOjidDohodThree*stratsList[2][i];
+                    var b = sumTwoList[i] + polnOjidDohodOne*stratsList[3][i] + polnOjidDohodTwo*stratsList[4][i] + polnOjidDohodThree*stratsList[5][i];
+                    var c = sumThreeList[i] + polnOjidDohodOne*stratsList[6][i] + polnOjidDohodTwo*stratsList[7][i] + polnOjidDohodThree*stratsList[8][i];
+                    polnOjidDohodOneList.push(parseFloat(a.toFixed(2)));
+                    polnOjidDohodTwoList.push(parseFloat(b.toFixed(2)));
+                    polnOjidDohodThreeList.push(parseFloat(c.toFixed(2)));
+                }
+                polnOjidDohodOne = Math.max.apply(null, polnOjidDohodOneList);
+                polnOjidDohodTwo = Math.max.apply(null, polnOjidDohodTwoList);
+                polnOjidDohodThree = Math.max.apply(null, polnOjidDohodThreeList);
+                numSrategyOneList.push(polnOjidDohodOneList.indexOf(polnOjidDohodOne) +1);
+                numSrategyTwoList.push(polnOjidDohodTwoList.indexOf(polnOjidDohodTwo) +1);
+                numSrategyThreeList.push(polnOjidDohodThreeList.indexOf(polnOjidDohodThree) +1);
+
+                polnOjidDohodExample.push([polnOjidDohodOne,polnOjidDohodTwo,polnOjidDohodThree]);
+                
+            }
+            alert(polnOjidDohodExample);
+            var matrixPolnOjidDohods = $('#tableMatrixPolnOjidDohodsExample');
+            for(var i = 0; i < numOfModelirovanija; i++){
+                var row = $('<tr></tr>').appendTo(matrixPolnOjidDohods);
+                $('<td></td>').text(i+1).appendTo(row);
+                $('<td></td>').text("Сост.1").appendTo(row);
+                $('<td></td>').text(polnOjidDohodExample[i][0]).appendTo(row);
+                $('<td></td>').text(numSrategyOneList[i]).appendTo(row);
+                $('<td></td>').text("Сост.2").appendTo(row);
+                $('<td></td>').text(polnOjidDohodExample[i][1]).appendTo(row);
+                $('<td></td>').text(numSrategyTwoList[i]).appendTo(row);
+                $('<td></td>').text("Сост.3").appendTo(row);
+                $('<td></td>').text(polnOjidDohodExample[i][2]).appendTo(row);
+                $('<td></td>').text(numSrategyThreeList[i]).appendTo(row);
+            } 
+            var canvas = document.getElementById('graphExample')
+            var paper = new Raphael(canvas, 1000, 300);
+            for (var i = 1; i<= numOfModelirovanija; i++)
+            {
+                var circle = paper.circle(50 + (i - 1) * 150, 40, 20);
+                var text = paper.text(50 + (i - 1) * 150, 40, "1").attr({'font-size': 15});
+                var circle1 = paper.circle(50 + (i - 1) * 150, 150, 20);
+                var text = paper.text(50 + (i - 1) * 150, 150, "2").attr({'font-size': 15});
+                var circle2 = paper.circle(50 + (i - 1) * 150, 260, 20);
+                var text = paper.text(50 + (i - 1) * 150, 260, "3").attr({'font-size': 15});
+
+                if (i != numOfModelirovanija){
+                    var pathOneOne = paper.path("M "+ (50 + (i - 1) * 150 + 20) +",40 L " + (50 + i * 150 - 20) + ",40");
+                    var pathOneTwo = paper.path("M "+ (50 + (i - 1) * 150 + 20) +",40 L " + (50 + i * 150 - 20) + ",150");
+                    var pathOneThree = paper.path("M "+ (50 + (i - 1) * 150 + 20) +",40 L " + (50 + i * 150 - 20) + ",260");
+
+                    var pathTwoOne = paper.path("M "+ (50 + (i - 1) * 150 + 20) +",150 L " + (50 + i * 150 - 20) + ",40");
+                    var pathTwoTwo = paper.path("M "+ (50 + (i - 1) * 150 + 20) +",150 L " + (50 + i * 150 - 20) + ",150");
+                    var pathTwoThree = paper.path("M "+ (50 + (i - 1) * 150 + 20) +",150 L " + (50 + i * 150 - 20) + ",260");
+
+                    var pathThreeOne = paper.path("M "+ (50 + (i - 1) * 150 + 20) +",260 L " + (50 + i * 150 - 20) + ",40");
+                    var pathThreeTwo = paper.path("M "+ (50 + (i - 1) * 150 + 20) +",260 L " + (50 + i * 150 - 20) + ",150");
+                    var pathThreeThree = paper.path("M "+ (50 + (i - 1) * 150 + 20) +",260 L " + (50 + i * 150 - 20) + ",260");
+
+                    if (numSrategyOneList[i]==1){
+                        pathOneOne.attr({stroke:'#1e90ff'});
+                        pathOneTwo.attr({stroke:'#1e90ff'});
+                        pathOneThree.attr({stroke:'#1e90ff'})
+                    }
+                    if (numSrategyTwoList[i]==1){
+                        pathTwoOne.attr({stroke:'#1e90ff'});
+                        pathTwoTwo.attr({stroke:'#1e90ff'});
+                        pathTwoThree.attr({stroke:'#1e90ff'})
+                    }
+                    if (numSrategyThreeList[i]==1){
+                        pathThreeOne.attr({stroke:'#1e90ff'});
+                        pathThreeTwo.attr({stroke:'#1e90ff'});
+                        pathThreeThree.attr({stroke:'#1e90ff'})
+                    }
+
+                    if (numSrategyOneList[i]==2){
+                        pathOneOne.attr({stroke:'#db7093'});
+                        pathOneTwo.attr({stroke:'#db7093'});
+                        pathOneThree.attr({stroke:'#db7093'})
+                    }
+                    if (numSrategyTwoList[i]==2){
+                        pathTwoOne.attr({stroke:'#db7093'});
+                        pathTwoTwo.attr({stroke:'#db7093'});
+                        pathTwoThree.attr({stroke:'#db7093'})
+                    }
+                    if (numSrategyThreeList[i]==2){
+                        pathThreeOne.attr({stroke:'#db7093'});
+                        pathThreeTwo.attr({stroke:'#db7093'});
+                        pathThreeThree.attr({stroke:'#db7093'})
+                    }
+
+                    if (numSrategyOneList[i]==3){
+                        pathOneOne.attr({stroke:'#00a86b'});
+                        pathOneTwo.attr({stroke:'#00a86b'});
+                        pathOneThree.attr({stroke:'#00a86b'})
+                    }
+                    if (numSrategyTwoList[i]==3){
+                        pathTwoOne.attr({stroke:'#00a86b'});
+                        pathTwoTwo.attr({stroke:'#00a86b'});
+                        pathTwoThree.attr({stroke:'#00a86b'})
+                    }
+                    if (numSrategyThreeList[i]==3){
+                        pathThreeOne.attr({stroke:'#00a86b'});
+                        pathThreeTwo.attr({stroke:'#00a86b'});
+                        pathThreeThree.attr({stroke:'#00a86b'})
+                    }
+                }
+            }         
+        }
+    </script>
+{% endblock %}  
+    
+{% block content %}
+       
+        <div class="row">
+            <h1>Лабораторная работа №1</h1>
+            <div class="col-1-4" id="tpr1Goal">Цель работы:</div>
+            <div class="col-3-4">Целью работы является освоение способов принятия решений в условиях риска.</div>
+            <div class="col-1-4" id="tpr1Goal">Задача:</div>
+            <div class="col-3-4">1. Изучение рекурентного метода дискретных марковских процессов (ДМП).</div>
+            <div class="col-3-4">2. Реализация алгоритма для решения конкретной задачи.</div>
+              
+            <form method="post" enctype="multipart/form-data">   
+                {% csrf_token %}
+                <h3>Личный пример</h3>
+                <div></div>
+                <h6 style="font-weight: bold;">Рассмотрим в качестве состояний системы различные стадии гериатрического синдрома "Старческая астения".</h6>
+                <p> Состояние 1 - характеризуется легкой стадией рассматриваемого заболевания;<br>
+                    Состояние 2 - характеризуется умеренной стадией рассматриваемого заболевания;<br>
+                    Состояние 3 - характеризуется тяжелой стадией рассматриваемого заболевания;</p>
+                <h6 style="font-weight: bolder;">Рассмотрим 3 варианта развития событий:</h6>
+                <p> Стратегия 1 - пациент оставляет все на самотек и не предпринимает никаких действий для улучшения состояния своего здоровья;<br>
+                    Стратегия 2 - пациент проходит комплексную гериатрическую оценку и частично выполняет указания врача;<br>
+                    Стратегия 3 - пациент проходит КГО и выполняет все рекоммендации врача относительно курса назначенного лечения;</p>
+                <p><label for="textField">Выберите файл с матрицей вероятностей:</label>
+                    <input type="file" name="myfileStrategyExample" placeholder="Стратегии"></p>
+                <p><label for="textField">Выберите файл с матрицей доходностей:</label>
+                    <input type="file" name="myfileDohodsExample"></p>
+                <p><label for="textField">Введите желаемое значение количества этапов моделирования:</label>
+                    <input id="numberOfModelingExample" type="text"></p>
+                <button type="submit" id="buttonUploadExample">Обновить БД</button>
+                <button type="button" id="calculateGraphExample" onclick="calculateGraph1Example()">Тест</button>
+                <h3>Матрица переходных вероятностей для личного примера</h3>
+                <table id="tableStrategysExample" style="width:100%", border="1", cellpadding="4" cellspacing="0">
+                    <!-- <caption>Матрица переходных вероятностей</caption> -->
+                    <tr>
+                        <th>Номер</th><th>Сост.1-Сост.1</th><th>Сост.1-Сост.2</th><th>Сост.1-Сост.3</th>
+                                      <th>Сост.2-Сост.1</th><th>Сост.2-Сост.2</th><th>Сост.2-Сост.3</th>
+                                      <th>Сост.3-Сост.1</th><th>Сост.3-Сост.2</th><th>Сост.3-Сост.3</th>
+                    </tr>
+                    {% for strat in stratsExample %}
+                        <tr>
+                            <td>{{strat}}</td>
+                            <td>{{strat.one_one}}</td>
+                            <td>{{strat.one_two}}</td>
+                            <td>{{strat.one_three}}</td>    
+                            <td>{{strat.two_one}}</td>
+                            <td>{{strat.two_two}}</td>
+                            <td>{{strat.two_three}}</td>    
+                            <td>{{strat.three_one}}</td>
+                            <td>{{strat.three_two}}</td>
+                            <td>{{strat.three_three}}</td>
+
+                        </tr>
+                    {% endfor %}
+                <!-- <div id="test"></div> -->
+
+                </table>
+                <h3>Матрица доходностей для личного примера</h3>
+                <table id="tableDohodsExample" style="width:100%", border="1", cellpadding="4" cellspacing="0">
+                    <!-- <caption>Матрица доходностей</caption> -->
+                    <tr>
+                        <th>Номер</th><th>Сост.1-Сост.1</th><th>Сост.1-Сост.2</th><th>Сост.1-Сост.3</th>
+                                      <th>Сост.2-Сост.1</th><th>Сост.2-Сост.2</th><th>Сост.2-Сост.3</th>
+                                      <th>Сост.3-Сост.1</th><th>Сост.3-Сост.2</th><th>Сост.3-Сост.3</th>
+                    </tr>
+                    {% for dohod in dohodsExample %}
+                        <tr>
+                            <td>{{dohod}}</td>
+                            <td>{{dohod.one_one}}</td>
+                            <td>{{dohod.one_two}}</td>
+                            <td>{{dohod.one_three}}</td>
+    
+                            <td>{{dohod.two_one}}</td>
+                            <td>{{dohod.two_two}}</td>
+                            <td>{{dohod.two_three}}</td>
+    
+                            <td>{{dohod.three_one}}</td>
+                            <td>{{dohod.three_two}}</td>
+                            <td>{{dohod.three_three}}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+                <h3>Матрица ожидаемых доходностей для личного примера</h3>
+                <table id="tableMatrixOjidDohodsExample" style="width:100%", border="1", cellpadding="4" cellspacing="0">
+                    <tr>
+                        <th>Номер стратегии</th>
+                        <th>Состояние</th><th>Значение ожидаемого дохода</th>
+                        <th>Состояние</th><th>Значение ожидаемого дохода</th>
+                        <th>Состояние</th><th>Значение ожидаемого дохода</th>
+                    </tr>
+                </table>
+                <h3>Матрица полных ожидаемых доходностей на каждом этапе моделирования для личного примера</h3>
+                <table id="tableMatrixPolnOjidDohodsExample" style="width:100%", border="1", cellpadding="4" cellspacing="0">
+                    <tr>
+                        <th>Этап моделирования</th>
+                        <th>Состояние</th><th>Значение полн. ожид. дохода</th><th>Ном. стратегии</th>
+                        <th>Состояние</th><th>Значение полн. ожид. дохода</th><th>Ном. стратегии</th>
+                        <th>Состояние</th><th>Значение полн. ожид. дохода</th><th>Ном. стратегии</th>
+                    </tr>
+                </table>
+                <h3>Граф личного примера</h3>
+                <div id="canvasExample">
+                    <div class="legend">
+                        <p class="title">Легенда:</p>    
+                        <ul class="caption-list">
+                          <li class="caption-item">1 стратегия</li>
+                          <li class="caption-item">2 стратегия</li>
+                          <li class="caption-item">3 стартегия</li>
+                        </ul>
+                      </div>
+                      <div id="graphExample"></div>
+                </div>    
+            </form>
+        </div>    
+    {% endblock %}

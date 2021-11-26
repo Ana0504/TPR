@@ -1,0 +1,47 @@
+.col-sm-2 {
+    display: table-cell; 
+    height: 100%; 
+    background: #00C0B2;
+    width: 20%;
+    padding: 1%;
+    color: #fff;
+    border-right: 5px solid #FF9200;
+    padding-left: 2%;
+}
+aside img{
+    width: 80px;
+    float: left;
+}
+
+aside .logo{
+    font-size: 40px;
+    margin-left: 10px;
+    font-weight: bolder;
+    position: relative;
+    top: 5px;
+}
+
+aside h3{
+    margin-top: 50px;
+    color: #FFC06C;
+    font-weight: bold;
+}
+
+
+aside ul {
+    list-style: none;
+    padding-left: 0px;
+}
+aside ul li {
+    color: #fff;
+    display: block;
+    margin-top: 20px;
+    transition: transform .6s ease;
+}
+
+
+aside ul li:hover, aside ul a:hover {
+    color: #FFAB3C;
+    text-decoration: none;
+    transform: scale(1.05);
+}
