@@ -1,10 +1,12 @@
 from typing import List
 from django.shortcuts import render
-from .models import TprLab1Strategy, TprLab1Dohod, TprLab1StrategyExample, TprLab1DohodsExample
+from .models import TprLab1Strategy, TprLab1Dohod, TprLab1StrategyExample, TprLab1DohodsExample, TprLab6StockData
 from .forms import TprLab1StrategyForm, TprLab1DohodForm
 from django.contrib import messages
 from tablib import Dataset
 from django.http import HttpResponse
+from django.core import serializers
+import json
 
 def index(request):
     return render(request,'main/index.html')
@@ -107,33 +109,44 @@ def tpr1_upload_Example(request):
 
         for data in imported_data_strat:
             valueStrategy = TprLab1StrategyExample (
-                data[0],
-                data[1],
-                data[2],
-                data[3],
-                data[4],
-                data[5],
-                data[6],
-                data[7],
-                data[8],
-                data[9], 
+                data[0], data[1], data[2], data[3], data[4],
+                data[5], data[6], data[7], data[8], data[9], 
                 data[10]
             )
             valueStrategy.save()
         for data in imported_data_dohod:
             valDohod = TprLab1DohodsExample (
-                data[0],
-                data[1],
-                data[2],
-                data[3],
-                data[4],
-                data[5],
-                data[6],
-                data[7],
-                data[8],
-                data[9],
+                data[0], data[1], data[2], data[3], data[4],
+                data[5], data[6], data[7], data[8], data[9], 
                 data[10]
             )
             valDohod.save()
     
     return render(request, 'main/tpr/tpr2.html', {'stratsExample' : strategysExample, 'dohodsExample': dohodsExample},)
+
+
+def tpr6_upload(request):
+    # json_serializer = serializers.get_serializer("json")
+    # stockData = json_serializer.serialize(TprLab6StockData.objects.all().order_by('id')[:3], ensure_ascii=False)
+    stockData = TprLab6StockData.objects.all().values('ticker','stockDate', 'stockOpen', 'stockHigh', 'stockLow', 'stockClose', 'stockVol')
+    data = list(stockData)
+    # stockDataJSON = json.dumps(stockData)
+    if request.method == 'POST':
+        # tpr1TestData = TprLab1StrategyForm()
+        datasetStock = Dataset()
+
+        new_file_stock= request.FILES['fileLab6']
+
+        if not (new_file_stock.name.endswith('xlsx')):
+            messages.info(request,'неверный формат файла')
+            return render(request, 'main/tpr/tpr5.html')
+
+        imported_data_stock = datasetStock.load(new_file_stock.read(), format='xlsx')
+
+        for data in imported_data_stock:
+            valuesStock = TprLab6StockData (
+                data[0], data[1], data[2], data[3], 
+                data[4], data[5], data[6], data[7]
+            )
+            valuesStock.save()
+    return render(request, 'main/tpr/tpr5.html', {'stockData' : data},)

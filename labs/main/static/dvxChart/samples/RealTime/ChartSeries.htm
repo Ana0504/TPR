@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Change Chart Series Example - JavaScript Chart by dvxCharts</title>
+    <link rel="stylesheet" type="text/css" href="../../css/dvxCharts.chart.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../themes/base/styles.css" />
+    <script src="../../js/dvxCharts.chart.min.js" type="text/javascript"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <style>
+        .example-container {
+            width: 100%;
+            max-width: 500px;
+            height: 300px;
+        }
+    </style>
+    
+    <script lang="javascript" type="text/javascript">
+        function getRandomData() {
+            var data = [];
+
+            for (var i = 0; i < 20; i++) {
+                data.push([i, Math.round(Math.random() * 100)]);
+            }
+
+            return data;
+        }
+
+        var state = {
+            title: {
+                text: 'Change Series'
+            },
+            legend: {
+                visible: false
+            },
+            axes: [
+                {
+                    location: 'bottom',
+                    minimum: 0,
+                    maximum: 20
+                },
+                {
+                    location: 'left',
+                    minimum: 0,
+                    maximum: 100
+                }
+            ],
+            series: [
+                {
+                    type: 'line',
+                    data: getRandomData()
+                }
+            ]
+        };
+
+        var chart = new dvxCharts.Chart(state);
+        chart.write('container');
+
+        function addSeries() {
+
+            var newSeries = {
+                type: 'line',
+                data: getRandomData()
+            };
+
+            state.series.push(newSeries);
+
+            chart.setState(state);
+        }
+
+        function removeSeries() {
+
+            // remove the last series
+            state.series.splice(state.series.length - 1, 1);
+
+            chart.setState(state);
+        }
+    </script>
+
+</head>
+<body>
+    <div id="container" class="example-container">
+    </div>
+    <br />
+    <input id="buttonAddSeries" type="button" value="Add new series" onclick="addSeries()" />
+    <input id="buttonRemoveSeries" type="button" value="Remove last series" onclick="removeSeries()" />
+    <br />
+</body>
+</html>

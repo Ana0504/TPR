@@ -1,6 +1,6 @@
 from django.contrib import admin
 from import_export.admin import ImportExportModelAdmin
-from .models import TprLab1Strategy, TprLab1Dohod, TprLab1DohodsExample, TprLab1StrategyExample
+from .models import TprLab1Strategy, TprLab1Dohod, TprLab1DohodsExample, TprLab1StrategyExample, TprLab6StockData
 
 # Register your models here.
 
@@ -22,3 +22,8 @@ class TprLab1StrategyExampleAdmin(ImportExportModelAdmin):
 @admin.register(TprLab1DohodsExample)
 class TprLab1DohodsExampleAdmin(ImportExportModelAdmin):
     list_display = ('one_one','one_two','one_three','two_one','two_two','two_three','three_one','three_two','three_three')
+
+
+@admin.register(TprLab6StockData)
+class TprLab6StockDataAdmin(ImportExportModelAdmin):
+    list_display = ('ticker','stockDate','stockOpen','stockHigh','stockLow','stockClose','stockVol')

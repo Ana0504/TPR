@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Bar Chart Example - JavaScript Chart by dvxCharts</title>
+    <link rel="stylesheet" type="text/css" href="../../css/dvxCharts.chart.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../themes/base/styles.css" />
+    <script src="../../js/dvxCharts.chart.min.js" type="text/javascript"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <style>
+        .example-container {
+            width: 100%;
+            max-width: 500px;
+            height: 300px;
+        }
+    </style>
+    
+    <style>
+        .mySeries1 .dvx-chart-series-data-group {
+            fill: #418CF0;
+        }
+
+        .mySeries2 .dvx-chart-series-data-group {
+            fill: #FCB441;
+        }
+    </style>
+    <script lang="javascript" type="text/javascript">
+        var chart = new dvxCharts.Chart({
+            title: {
+                text: 'Bar Chart'
+            },
+            animation: {
+                duration: 1
+            },
+            series: [
+                {
+                    type: 'bar',
+                    class: 'mySeries1',
+                    title: 'Series 1',
+                    data: [['A', 33], ['B', 57], ['C', 33],
+                    ['D', 12], ['E', 35], ['F', 7], ['G', 24]]
+                },
+                {
+                    type: 'bar',
+                    class: 'mySeries2',
+                    title: 'Series 2',
+                    data: [['A', 67], ['B', 25], ['C', 11],
+                    ['D', 8], ['E', 44], ['F', 14], ['G', 78]]
+                }
+            ]
+        });
+        chart.write('container');
+    </script>
+
+</head>
+<body>
+    <div>
+        <div id="container" class="example-container"></div>
+    </div>
+</body>
+</html>

@@ -20,7 +20,8 @@
                 $('<br>').appendTo(stratPlayersMatrix)
             }
         }
-        function culcPokazately(){
+
+        function getDataFromMatrix(){
             var stratPlayerMatrixValue = [];
             var colichestvoStratPlayer1 = $('#numOfstratPlayer1').val();
             var colichestvoStratPlayer2 = $('#numOfstratPlayer2').val();
@@ -34,41 +35,151 @@
                 }
                 stratPlayerMatrixValue.push(stratPlayerMatrixRow);
             }
+            return stratPlayerMatrixValue;
+        }
+
+        function calcNumOfIterationFunc(){
+            var colichestvoStratPlayer1 = $('#numOfstratPlayer1').val();
+            var colichestvoStratPlayer2 = $('#numOfstratPlayer2').val();
+            var numOfIteration = $('#numOfIteration').val();
+            var numStratPlayer1 = 0;
+            var numStratPlayer2 = 0;
+            var numStratPlayer1List = [];
+            var numStratPlayer2List = [];
+            var stratPlayerMatrixValue = getDataFromMatrix();
+            var g = [], h = [];
+            g.length = parseInt(colichestvoStratPlayer1);
+            h.length = parseInt(colichestvoStratPlayer2)
+            g.fill(0,0);
+            h.fill(0,0);
+            var mPromejutochn, vPromejutochn, k=0 ;
+            var numOfTochnost = $('#numOfTochnost').val();
+            do {
+                k = k+1;
+                for (var i = 0; i< colichestvoStratPlayer1; i++){
+                    g[i] = (parseInt(stratPlayerMatrixValue[i][parseInt(numStratPlayer1)]) + g[i]);
+                    h[i] = (parseInt(stratPlayerMatrixValue[parseInt(numStratPlayer2)][i]) + h[i]);
+                }
+                var mPromNotk = Math.min.apply(null, g);
+                var vPromNotk = Math.max.apply(null, h);
+
+                mPromejutochn = (mPromNotk/(k));
+                vPromejutochn = (vPromNotk/(k));
+                var razn = vPromejutochn - mPromejutochn;
+
+                numStratPlayer2 = g.indexOf(mPromNotk); 
+                numStratPlayer1 = h.indexOf(vPromNotk);
+            } while ((razn)> numOfTochnost)
+            alert('Необходимо '+ k +' итераций');
+        }
+
+        function findGamePrice(){
+            var colichestvoStratPlayer1 = $('#numOfstratPlayer1').val();
+            var colichestvoStratPlayer2 = $('#numOfstratPlayer2').val();
+            var stratPlayerMatrixValue = getDataFromMatrix(); 
+            var hMaxList = [];
+            var gMinList = [];
+            for (var i =0; i<colichestvoStratPlayer1; i++){
+                var h = [];
+                var g = [];
+
+                for(var j=0; j< colichestvoStratPlayer2;j++){
+                    
+                    g.push(stratPlayerMatrixValue[i][j]);
+                    h.push(stratPlayerMatrixValue[j][i]);
+                }
+                gMinList.push(Math.min.apply(null, g));
+                hMaxList.push(Math.max.apply(null, h));
+            }
+            var a =  Math.max.apply(null, gMinList);
+            var b = Math.min.apply(null,hMaxList);
+            if (a==b){
+                alert('Седловая точка: ' + Math.max.apply(null, gMinList) + ' (' + (gMinList.indexOf(gMinList.a)+1) +',' + (hMaxList.indexOf(hMaxList.b) +1) + ')');
+            }
+            else{
+                alert('Седловой точки нет');
+            }
+        }
+
+        function culcPokazately(){
+            // var stratPlayerMatrixValue = [];
+            // var colichestvoStratPlayer1 = $('#numOfstratPlayer1').val();
+            // var colichestvoStratPlayer2 = $('#numOfstratPlayer2').val();
+            // // var numberOfIteration = $('#namberOfIteration').val();         
+
+            
+            // for(var i = 1; i <= colichestvoStratPlayer1; i++){
+            //     var stratPlayerMatrixRow = [];
+            //     for(var j = 1; j <= colichestvoStratPlayer2; j++){
+            //         stratPlayerMatrixRow.push($('#field' + i + '_'+ j +'').val());
+            //     }
+            //     stratPlayerMatrixValue.push(stratPlayerMatrixRow);
+            // }
             // alert(stratPlayerMatrixValue);
+            var colichestvoStratPlayer1 = $('#numOfstratPlayer1').val();
+            var colichestvoStratPlayer2 = $('#numOfstratPlayer2').val();
+            var stratPlayerMatrixValue = getDataFromMatrix();
 
             var numOfIteration = $('#numOfIteration').val();
             var numStratPlayer1 = 0;
             var numStratPlayer2 = 0;
             var numStratPlayer1List = [];
             var numStratPlayer2List = [];
-
+            var mPromList = [], vPromList = [];
             var m = [], v = [];
             var g = [], h = [];
             g.length = parseInt(colichestvoStratPlayer1);
             h.length = parseInt(colichestvoStratPlayer2)
             g.fill(0,0);
             h.fill(0,0);
+
+            // var mPromejutochn, vPromejutochn, k=0 ;
+            // var numOfTochnost = $('#numOfTochnost').val();
+            // do {
             for (var k = 0; k < numOfIteration; k++){
+                
                 for (var i = 0; i< colichestvoStratPlayer1; i++){
                     g[i] = (parseInt(stratPlayerMatrixValue[i][parseInt(numStratPlayer1)]) + g[i]);
                     h[i] = (parseInt(stratPlayerMatrixValue[parseInt(numStratPlayer2)][i]) + h[i]);
                 }
-                var mPromejutochn = Math.min.apply(null, g);
-                var vPromejutochn = Math.max.apply(null, h);
-                m.push((mPromejutochn/(k+1)).toFixed(2));
-                v.push((vPromejutochn/(k+1)).toFixed(2));
-                numStratPlayer2 = g.indexOf(mPromejutochn); 
-                numStratPlayer1 = h.indexOf(vPromejutochn);
+                var mPromNotk = Math.min.apply(null, g);
+                var vPromNotk = Math.max.apply(null, h);
+                mPromList.push(mPromNotk);
+                vPromList.push(vPromNotk);
+
+                mPromejutochn = (mPromNotk/(k+1));
+                vPromejutochn = (vPromNotk/(k+1));
+                var razn = vPromejutochn - mPromejutochn;
+
+                m.push(mPromejutochn.toFixed(3));
+                v.push(vPromejutochn.toFixed(3));
+                numStratPlayer2 = g.indexOf(mPromNotk); 
+                numStratPlayer1 = h.indexOf(vPromNotk);
                 numStratPlayer1List.push(numStratPlayer1);
                 numStratPlayer2List.push(numStratPlayer2);
+                
             }
+            // intersect = function(m, v) {
+            //         return m.filter(function(n) {
+            //         return v.indexOf(n) !== -1;
+            //     });
+            // };
+            // const intersection = mPromList.filter(element => vPromList.includes(element));
+            // alert(intersection);
+            // } while ((razn)> numOfTochnost)
+            // alert(m[m.length-1])
+            $('#numOfLowGamePrice').text(m[m.length-1]);
+            $('#numOfUpGamePrice').text(v[v.length-1]);
+            $('#numOfMediumGamePrice').text((parseFloat(m[m.length-1])+parseFloat(v[v.length-1]))/2);
+
+
             var mixStrateg1PlayerList = [];
             var mixStrateg2PlayerList = [];
             for (var i = 0; i< colichestvoStratPlayer1; i++){
                 mixStrateg1PlayerList.push(((numStratPlayer1List.filter(item => item === i).length)/numOfIteration).toFixed(2));
                 mixStrateg2PlayerList.push(((numStratPlayer2List.filter(item => item === i).length)/numOfIteration).toFixed(2));
             }
-            alert(mixStrateg1PlayerList);
+            // alert('Необходимо '+ k +' итераций');
             var valGtable = $('#tableMatrixGvalues')
             for (var i=0; i<g.length; i++){
                 var row = $('<tr></tr>').appendTo(valGtable);
@@ -109,16 +220,26 @@
             <input type="text" id="numOfstratPlayer1" ></p>
         <p><label for="textField">Количество стратегий 2 игрока:</label>
             <input type="text" id="numOfstratPlayer2"></p>
-        <p><label for="textfield">Введите количество итераций:</label>
-            <input type="text" id="numOfIteration"></p>
         <p><label for="textField">Создать матрицу стратегий:</label>
             <button id="createStratMatrix" onclick="createStratMatrixFunc()">Создать</button></p>
     </section>
     <section id=stratMatrixsection>
         <h5 style="font-weight: bold;">Матрица стратегий:</h5>
         <div id="stratMatrix" style="align-content: center;"></div>
-        <p><label for="textField">Расчитать показатели:</label>
-            <button id="readStratMatrix" onclick="culcPokazately()">Создать</button></p>
+        <p><label for="textfield">Введите точность:</label>
+            <input type="number" id="numOfTochnost">
+            <button id="calcNumOfIteration" onclick="calcNumOfIterationFunc()">Расчитать</button>
+        </p>
+        <p><label for="textfield">Определить наличие седловой точки:</label>
+            
+            <button id="findGamePrice" onclick="findGamePrice()">Найти</button>
+        </p>
+        <!-- <p><label for="textField">Расчитать количество итераций:</label>
+            <button id="calcNumOfIteration" onclick="calcNumOfIterationFunc()">Создать</button></p> -->
+        <p><label for="textfield">Введите количество итераций:</label>
+            <input type="text" id="numOfIteration">
+            <button id="readStratMatrix" onclick="culcPokazately()">Расчитать</button></p>
+        </p>
     </section>
     <section id="valueGandHofPlayers">
         <table id="tableMatrixGvalues"  border="1" cellpadding="4" cellspacing="0">
@@ -133,5 +254,13 @@
                 <td>Значение mix страт. 2 игрока :</td>
             </tr>
         </table>
+    </section>
+    <section id="gamePrices">
+        <p><label for="textfield">Значение нижней цены игры:</label>
+            <output id="numOfLowGamePrice"></p>
+        <p><label for="textfield">Значение верхней цены игры:</label>
+            <output id="numOfUpGamePrice"></p>
+        <p><label for="textfield">Значение средней цены игры:</label>
+            <output id="numOfMediumGamePrice"></p>
     </section>
 {% endblock %}

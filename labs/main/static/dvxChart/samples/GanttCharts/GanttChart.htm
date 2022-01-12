@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Gantt Chart Example - JavaScript Chart by dvxCharts</title>
+    <link rel="stylesheet" type="text/css" href="../../css/dvxCharts.chart.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../themes/base/styles.css" />
+    <script src="../../js/dvxCharts.chart.min.js" type="text/javascript"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <style>
+        .example-container {
+            width: 100%;
+            max-width: 500px;
+            height: 300px;
+        }
+    </style>
+    
+    <style>
+        .mySeries .dvx-chart-series-label {
+            font-size: 15px;
+            fill: white;
+        }
+
+        .mySeries .dvx-chart-series-item:nth-child(1) {
+            fill: #418CF0;
+        }
+
+        .mySeries .dvx-chart-series-item:nth-child(2) {
+            fill: #FCB441;
+        }
+
+        .mySeries .dvx-chart-series-item:nth-child(3) {
+            fill: #E0400A;
+        }
+
+        .mySeries .dvx-chart-series-item:nth-child(4) {
+            fill: #056492;
+        }
+
+        .mySeries .dvx-chart-series-item:nth-child(5) {
+            fill: #BFBFBF;
+        }
+    </style>
+    <script lang="javascript" type="text/javascript">
+        var chart = new dvxCharts.Chart({
+            title: {
+                text: 'Gantt Chart'
+            },
+            animation: {
+                duration: 1
+            },
+            legend: {
+                visible: false
+            },
+            series: [
+                {
+                    type: 'gantt',
+                    class: 'mySeries',
+                    data: [
+                        ['Phase 1', new Date(2010, 0, 1), new Date(2010, 0, 30), 'Task 1'],
+                        ['Phase 2', new Date(2010, 0, 1), new Date(2010, 0, 10), 'Task 2'],
+                        ['Phase 3', new Date(2010, 0, 10), new Date(2010, 0, 20), 'Task 3'],
+                        ['Phase 4', new Date(2010, 0, 20), new Date(2010, 0, 25), 'Task 4'],
+                        ['Phase 5', new Date(2010, 0, 25), new Date(2010, 0, 30), 'Task 5']
+                    ],
+                    labels: {
+                        fillStyle: 'white',
+                        font: '14px sans-serif'
+                    }
+                }
+            ]
+        });
+        chart.write('container');
+    </script>
+
+</head>
+<body>
+    <div>
+        <div id="container" class="example-container">
+        </div>
+    </div>
+</body>
+</html>

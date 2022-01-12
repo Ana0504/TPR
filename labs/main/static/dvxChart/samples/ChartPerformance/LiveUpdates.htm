@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Live Updates Example - JavaScript Chart by dvxCharts</title>
+    <link rel="stylesheet" type="text/css" href="../../css/dvxCharts.chart.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../themes/base/styles.css" />
+    <script src="../../js/dvxCharts.chart.min.js" type="text/javascript"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <style>
+        .example-container {
+            width: 100%;
+            max-width: 500px;
+            height: 300px;
+        }
+    </style>
+    
+    <script lang="javascript" type="text/javascript">
+        var data = [];
+        var yValue = 20;
+
+        for (var i = 0; i < 10; i++) {
+            yValue = Math.round(Math.random() * 100);
+            data.push(yValue);
+        }
+
+        var state = {
+            title: { text: 'Live Updates' },
+            legend: {
+                visible: false
+            },
+            axes: [
+                {
+                    location: 'left',
+                    minimum: 0,
+                    maximum: 100
+                }
+            ],
+            series: [
+                {
+                    type: 'column',
+                    data: data
+                }
+            ]
+        };
+
+        var chart = new dvxCharts.Chart(state);
+
+        chart.write('container');
+
+        updateChart();
+
+        function updateChart() {
+
+            yValue = Math.round(Math.random() * 100);
+
+            // remove the first element
+            data.splice(0, 1);
+            // add a new element
+            data.push(yValue);
+
+            state.series[0].data = data;
+
+            chart.setState(state);
+
+            setTimeout("updateChart()", 300);
+        }
+    </script>
+
+</head>
+<body>
+    <div>
+        <div id="container" class="example-container">
+        </div>
+    </div>
+</body>
+</html>

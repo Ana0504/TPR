@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Line and Scatter Charts Example - JavaScript Chart by dvxCharts</title>
+    <link rel="stylesheet" type="text/css" href="../../css/dvxCharts.chart.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../themes/base/styles.css" />
+    <script src="../../js/dvxCharts.chart.min.js" type="text/javascript"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <style>
+        .example-container {
+            width: 100%;
+            max-width: 500px;
+            height: 300px;
+        }
+    </style>
+    
+    <script lang="javascript" type="text/javascript">
+        var chart = new dvxCharts.Chart({
+            title: {
+                text: 'Spline and Scatter'
+            },
+            animation: {
+                duration: 1
+            },
+            series: [
+                {
+                    type: 'spline',
+                    title: 'Spline',
+                    data: [[1, 46], [2, 48], [3, 68], [4, 30], [5, 55], [6, 85], [7, 43], [8, 29]]
+                },
+                {
+                    type: 'scatter',
+                    title: 'Scatter',
+                    data: [[1, 69], [2, 57], [3, 86], [4, 70], [5, 70], [6, 60], [7, 88], [8, 60]],
+                    markers: { type: 'diamond', size: 10 }
+                }
+            ]
+        });
+        chart.write('container');
+    </script>
+
+</head>
+<body>
+    <div>
+        <div id="container" class="example-container"></div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Client-Side Events Example - JavaScript Chart by dvxCharts</title>
+    <link rel="stylesheet" type="text/css" href="../../css/dvxCharts.chart.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../themes/base/styles.css" />
+    <script src="../../js/dvxCharts.chart.min.js" type="text/javascript"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <style>
+        .example-container {
+            width: 100%;
+            max-width: 500px;
+            height: 300px;
+        }
+    </style>
+    
+    <style>
+        .eventsDiv {
+            width: 160px;
+            height: 250px;
+            overflow: auto;
+            border: 1px solid #E2EFDE;
+            padding: 10px
+        }
+
+        .exampleTable {
+            background: none;
+            margin: 0;
+        }
+
+            .exampleTable tr {
+                background: none;
+                border: none;
+            }
+
+            .exampleTable td {
+                text-align: left;
+                vertical-align: top;
+                border: none;
+            }
+    </style>
+    <script lang="javascript" type="text/javascript">
+        var chart = new dvxCharts.Chart({
+            title: "Client-Side Events",
+            legend: {
+                visible: false
+            },
+            animation: {
+                duration: 1
+            },
+            series: [
+                {
+                    type: 'column',
+                    data: [['A', 70], ['B', 40], ['C', 85], ['D', 50], ['E', 25], ['F', 40]]
+                }
+            ]
+        });
+        chart.write('container');
+
+        chart.addEventListener('dataPointMouseEnter', function (e, data) {
+            var eventsDiv = document.getElementById('eventsDiv');
+            eventsDiv.innerHTML += '<div>dataPointMouseEnter</div>';
+            eventsDiv.scrollTop = eventsDiv.scrollHeight;
+        });
+
+        chart.addEventListener('dataPointMouseLeave', function (e, data) {
+            var eventsDiv = document.getElementById('eventsDiv');
+            eventsDiv.innerHTML += '<div>dataPointMouseLeave</div>';
+            eventsDiv.scrollTop = eventsDiv.scrollHeight;
+        });
+
+        chart.addEventListener('dataPointMouseMove', function (e, data) {
+            var eventsDiv = document.getElementById('eventsDiv');
+            eventsDiv.innerHTML += '<div>dataPointMouseMove</div>';
+            eventsDiv.scrollTop = eventsDiv.scrollHeight;
+        });
+
+        chart.addEventListener('dataPointMouseDown', function (e, data) {
+            var eventsDiv = document.getElementById('eventsDiv');
+            eventsDiv.innerHTML += '<div>dataPointMouseDown</div>';
+            eventsDiv.scrollTop = eventsDiv.scrollHeight;
+        });
+
+        chart.addEventListener('dataPointMouseUp', function (e, data) {
+            var eventsDiv = document.getElementById('eventsDiv');
+            eventsDiv.innerHTML += '<div>dataPointMouseUp</div>';
+            eventsDiv.scrollTop = eventsDiv.scrollHeight;
+        });
+
+        chart.addEventListener('tooltipFormat', function (e, data) {
+            var eventsDiv = document.getElementById('eventsDiv');
+            eventsDiv.innerHTML += '<div>tooltipFormat</div>';
+            eventsDiv.scrollTop = eventsDiv.scrollHeight;
+        });
+    </script>
+
+</head>
+<body>
+    <div>
+        <table class="exampleTable">
+            <tr>
+                <td>
+                    <div id="container" style="height: 300px; width: 400px">
+                    </div>
+                </td>
+                <td>
+                    <b>Events:</b><br />
+                    <div id="eventsDiv" class="eventsDiv">
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>

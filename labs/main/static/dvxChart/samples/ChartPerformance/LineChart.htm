@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chart Performance Example - JavaScript Chart by dvxCharts</title>
+    <link rel="stylesheet" type="text/css" href="../../css/dvxCharts.chart.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../themes/base/styles.css" />
+    <script src="../../js/dvxCharts.chart.min.js" type="text/javascript"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <style>
+        .example-container {
+            width: 100%;
+            max-width: 500px;
+            height: 300px;
+        }
+    </style>
+    
+    <script lang="javascript" type="text/javascript">
+        function round(d) {
+            return Math.round(100 * d) / 100;
+        }
+
+        var data1 = [];
+        var data2 = [];
+
+        var yValue1 = 50;
+        var yValue2 = 200;
+
+        for (var i = 0; i < 60000; i++) {
+
+            yValue1 += Math.random() * 10 - 5;
+            data1.push([i, round(yValue1)]);
+
+            yValue2 += Math.random() * 10 - 5;
+            data2.push([i, round(yValue2)]);
+        }
+
+        var chart = new dvxCharts.Chart({
+            title: {
+                text: 'Two series with 60000 points each.'
+            },
+            tooltips: {
+                type: 'shared'
+            },
+            crosshairs: {
+                enable: true,
+                hLine: {
+                    visible: false
+                }
+            },
+            axes: [
+                {
+                    type: 'linear',
+                    location: 'bottom',
+                    zoomEnabled: true
+                }
+            ],
+            series: [
+                {
+                    title: 'Series 1',
+                    type: 'line',
+                    data: data1,
+                    markers: null
+                },
+                {
+                    title: 'Series 2',
+                    type: 'line',
+                    data: data2,
+                    markers: null
+                }
+            ]
+        });
+        chart.write('container');
+    </script>
+
+</head>
+<body>
+    <div>
+        <div id="container" class="example-container">
+        </div>
+    </div>
+</body>
+</html>

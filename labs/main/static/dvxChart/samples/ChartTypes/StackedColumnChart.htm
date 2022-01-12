@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Stacked Column Chart Example - JavaScript Chart by dvxCharts</title>
+    <link rel="stylesheet" type="text/css" href="../../css/dvxCharts.chart.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../themes/base/styles.css" />
+    <script src="../../js/dvxCharts.chart.min.js" type="text/javascript"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <style>
+        .example-container {
+            width: 100%;
+            max-width: 500px;
+            height: 300px;
+        }
+    </style>
+    
+    <script lang="javascript" type="text/javascript">
+        var chart = new dvxCharts.Chart({
+            title: {
+                text: 'Stacked Column Chart'
+            },
+            animation: {
+                duration: 1
+            },
+            axes: [
+                {
+                    type: 'category',
+                    location: 'bottom',
+                    categories: ['A', 'B', 'C', 'D', 'E', 'F', 'G']
+                }
+            ],
+            series: [
+                {
+                    type: 'stackedColumn',
+                    title: 'Stacked 1',
+                    data: [62, 70, 68, 58, 52, 60, 48],
+                    labels: {
+                    }
+                },
+                {
+                    type: 'stackedColumn',
+                    title: 'Stacked 2',
+                    data: [56, 30, 62, 65, 40, 36, 70],
+                    labels: {
+                    }
+                },
+                {
+                    type: 'stackedColumn',
+                    title: 'Stacked 3',
+                    data: [33, 42, 54, 23, 54, 47, 61],
+                    labels: {
+                    }
+                }
+            ]
+        });
+        chart.write('container');
+    </script>
+
+</head>
+<body>
+    <div>
+        <div id="container" class="example-container"></div>
+    </div>
+</body>
+</html>

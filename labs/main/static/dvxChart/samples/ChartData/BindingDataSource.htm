@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Binding to Data Source Example - JavaScript Chart by dvxCharts</title>
+    <link rel="stylesheet" type="text/css" href="../../css/dvxCharts.chart.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../themes/base/styles.css" />
+    <script src="../../js/dvxCharts.chart.min.js" type="text/javascript"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <style>
+        .example-container {
+            width: 100%;
+            max-width: 500px;
+            height: 300px;
+        }
+    </style>
+    
+    <script lang="javascript" type="text/javascript">
+        var model = [
+            { date: "12/20/2012", value: 30 },
+            { date: "12/21/2012", value: 50 },
+            { date: "12/22/2012", value: 45 },
+            { date: "12/23/2012", value: 40 },
+            { date: "12/24/2012", value: 35 },
+            { date: "12/25/2012", value: 30 },
+            { date: "12/26/2012", value: 42 },
+            { date: "12/27/2012", value: 40 },
+            { date: "12/28/2012", value: 35 },
+            { date: "12/29/2012", value: 43 },
+            { date: "12/30/2012", value: 58 },
+            { date: "12/31/2012", value: 60 }
+        ];
+
+        var chart = new dvxCharts.Chart({
+            title: {
+                text: 'Binding to Data Source'
+            },
+            animation: {
+                duration: 1
+            },
+            dataSource: model,
+            series: [
+                {
+                    type: 'column',
+                    xValuesField: {
+                        name: 'date',
+                        type: 'dateTime' // string, numeric, dateTime
+                    },
+                    yValuesField: 'value'
+                }
+            ]
+        });
+        chart.write('container');
+    </script>
+
+</head>
+<body>
+    <div>
+        <div id="container" class="example-container">
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Markers Example - JavaScript Chart by dvxCharts</title>
+    <link rel="stylesheet" type="text/css" href="../../css/dvxCharts.chart.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../themes/base/styles.css" />
+    <script src="../../js/dvxCharts.chart.min.js" type="text/javascript"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <style>
+        .example-container {
+            width: 100%;
+            max-width: 500px;
+            height: 300px;
+        }
+    </style>
+    
+    <style>
+        .mySeries .dvx-chart-series-markers-group {
+            fill: red;
+            stroke: black;
+            stroke-width: 1px;
+        }
+    </style>
+    <script lang="javascript" type="text/javascript">
+        var chart = new dvxCharts.Chart({
+            title: {
+                text: 'Markers'
+            },
+            animation: {
+                duration: 1
+            },
+            series: [
+                {
+                    type: 'line',
+                    class: 'mySeries',
+                    title: 'Line',
+                    data: [['A', 56], ['B', 30], ['C', 62],
+                    ['D', 65], ['E', 40], ['F', 36], ['D', 70]],
+                    markers: {
+                        size: 10,
+                        type: 'rectangle'
+                    }
+                }
+            ]
+        });
+        chart.write('container');
+    </script>
+
+</head>
+<body>
+    <div>
+        <div id="container" class="example-container"></div>
+    </div>
+</body>
+</html>

@@ -6,14 +6,320 @@
 
 {% block labs %}{% include 'main/tpr/tprlabsLinks.html' %}{% endblock %}
 
+{% block script %}
+<link rel="stylesheet" href="../static/main/css/tprLab2Tr.css" type="text/css">
+<script>
+    function createNoInMatrixFunc(){
+        var numOfNoInNodes = $('#numOfNoInNodes').val();
+        var noInMatrix = $('#NoInMatrixLab2');
+        var labelList = ['Номер вершины', 'Номер родителя', 'Тип функции', 'Наименование вершины'];
+        for(var i = 1; i <= 4; i++){
+            for(var j = 0; j <= numOfNoInNodes; j++){
+                if (j==0){
+                    $('<label for="textfield" style="width: 190px;">' + labelList[i-1] + '</label>').appendTo(noInMatrix);
+                }
+                else if (i==4){
+                    $('<input type="text" id="noInfield' + i + '_'+ j +'" size="3" style="margin: 5px; width: 100px;">').appendTo(noInMatrix);
+                } 
+                else
+                $('<input type="number" id="noInfield' + i + '_'+ j +'" size="3" style="margin: 5px; width: 100px;">').appendTo(noInMatrix);
+            }
+            $('<br>').appendTo(noInMatrix)
+        }
+    }
+    function createInMatrixFunc(){
+        var numOfInNodes = $('#numOfInNodes').val();
+        var inMatrix = $('#InMatrixLab2');
+        var labelList = ['Номер вершины', 'Номер родителя', 'Вер. события', 'Знач. ошибки', 'Наименование вершины'];
+        for(var i = 1; i <= 5; i++){
+            for(var j = 0; j <= numOfInNodes; j++){
+                if (j==0){
+                    $('<label for="textfield" style="width: 190px;">' + labelList[i-1] + '</label>').appendTo(inMatrix);
+                }
+                else if (i==5){
+                    $('<input type="text" id="inField' + i + '_'+ j +'" size="3" style="margin: 5px; width: 100px;">').appendTo(inMatrix);
+                } 
+                else
+                $('<input type="number" id="inField' + i + '_'+ j +'" size="3" style="margin: 5px; width: 100px;">').appendTo(inMatrix);
+            }
+            $('<br>').appendTo(inMatrix)
+        }
+    }
+    function getDataFromNoInMatrix(){
+        // var nodeInfo = [];
+        var nodesInfo = [];
+        var numOfNoInNodes = $('#numOfNoInNodes').val();
+        for(var j = 1; j <= numOfNoInNodes; j++){              
+            nodesInfo.push({
+                id:   $('#noInfield' + 1 + '_'+ j +'').val(),
+                parent: $('#noInfield' + 2 + '_'+ j +'').val(),
+                nodeFunc: $('#noInfield' + 3 + '_'+ j +'').val(),
+                title: $('#noInfield' + 4 + '_'+ j +'').val(),
+                prob: 0
+            });
+        }
+        return nodesInfo;
+    }
+    function getDataFromInMatrix(){
+        // var nodeInfo = [];
+        var nodesInfo = [];
+        var numOfInNodes = $('#numOfInNodes').val();
+        for(var j = 1; j <= numOfInNodes; j++){              
+            nodesInfo.push({
+                id:   $('#inField' + 1 + '_'+ j +'').val(),
+                parent: $('#inField' + 2 + '_'+ j +'').val(),
+                prob: $('#inField' + 3 + '_'+ j +'').val(),
+                err: $('#inField' + 4 + '_'+ j +'').val(),
+                title: $('#inField' + 5 + '_'+ j +'').val(),
+            });
+        }
+        return nodesInfo;
+    }
+    // function drawTreeFunc(){
+    //     var dataNoIn = getDataFromNoInMatrix();
+    //     var dataIn = getDataFromInMatrix();
+    //     var data = dataNoIn.concat(dataIn);
+    //     var  x = new TreeBuilder();
+    //     x.setData(data);
+    //     document.getElementById('main').innerHTML = x.showTree();
+    // }
+
+    function drawTreeFunc(){
+        // var dataNoIn = getDataFromNoInMatrix();
+        // var dataIn = getDataFromInMatrix();
+        // var data = dataNoIn.concat(dataIn);
+        var arno =[
+        { id: "1", parent:"0", prob: 1, title:"A"},
+        { id: "2", parent:"1", prob: 2, title:"B"},
+        { id: "3", parent:"1", prob: 3, title:"C"},
+        { id: "4", parent:"1", prob: 4, title:"D"}
+        ];
+        let arrayin = [
+        { id: "5", parent:"2", prob: 5, title:"E"},
+        { id: "6", parent:"2", prob: 6, title:"F"},
+        { id: "7", parent:"2", prob: 7, title:"G"},      
+        { id: "8", parent:"3", prob: 8, title:"H"},
+        { id: "9", parent:"3", prob: 9, title:"I"},
+        { id: "10", parent:"4", prob: 10, title:"J"}
+        ];
+        var ar = arrayin.map(item => item.parent)
+        .filter((value, index, self) => self.indexOf(value) === index)
+        // alert(ar);
+
+        var artest = [];
+        for (var i = 0; i<ar.length;i++){
+            arno.find(item => item.id == ar[i])
+            artest.push(filter_following(arrayin, ar[i]));
+        }  
+        for (items in artest){
+            for (item in items){
+                for (let value of Object.values(item)) {
+                    alert(value);
+                }
+            }
+            
+        }
+        
+    }
+
+    function filter_following(array, arI) {
+        let result = [],
+            found = false;
+        for (let item of array) {
+            if (item.parent == arI ) {
+            found = true;
+            result[result.length] = item;
+           
+            }
+        }
+        return result;
+    }
+
+
+    var TreeBuilder = (function() {
+        var TB = function() {
+            // Если конструктор вызван без new, возвращаем с new
+            if (!(this instanceof TB)) {
+                return new TB();
+            }
+            this.stateMap    = {
+                inputArr        : undefined,
+                inputArrLength  : undefined,
+                outputArr       : []
+            };
+            this.html = '';
+        };
+
+        // Создание главных веток, у которых parent == 0
+        TB.prototype._makeMainTree = function() {
+            var
+                ln          = this.stateMap.inputArrLength,
+                inputArr    = this.stateMap.inputArr,
+                outputArr   = this.stateMap.outputArr;
+            while(ln--) {
+                if(inputArr[ln].parent == 0) {
+                        outputArr.push(inputArr[ln]);
+                }
+            }
+        };
+
+        // Строит html-дерево
+        TB.prototype._recursiveMakeVisualTree = function(arr) {
+            var ln  = arr.length;
+            this.html    += '<ul>';
+            while(ln--) {
+                if(arr[ln].child) {
+                    this.html += '<li>' + arr[ln].title + '</li>';
+                    this._recursiveMakeVisualTree(arr[ln].child);
+                } else {
+                    this.html += '<li>' + arr[ln].title + '</li>';
+                }
+            }
+            this.html += '</ul>';
+        };
+
+        // Рекурсивный поиск дочерних элементов по общему массиву
+        TB.prototype._recursiveDeepSearch = function(outputArr) {
+            var
+                inputArr            = this.stateMap.inputArr,
+                outputArrLength     = outputArr.length,
+                inputArrLength;
+
+            // Пробегаемся по новому массиву outputArr, по "родителям"
+            while(outputArrLength--) {
+
+                inputArrLength      = this.stateMap.inputArrLength;
+
+                // Сравниваем с элементами из общего массива
+                while(inputArrLength--) {
+
+                    if(inputArr[inputArrLength]) {
+
+                        /* 
+                            Поиск дочерних элементов.
+                            После того как нашли потомка, добавляем его к родителю,
+                            далее переходим к найденному потомку и ищем уже его потомков в общем массиве 
+                        */
+                        if(outputArr[outputArrLength].id == inputArr[inputArrLength].parent) {
+
+                            if(!outputArr[outputArrLength].child) {
+                                outputArr[outputArrLength].child = [];
+                            }
+
+                            // Добавляем потомка в новый массив, к его родителю
+                            outputArr[outputArrLength].child.push(inputArr[inputArrLength]);
+
+                            // Удаляем чтобы повторно с ним не работать
+                            delete inputArr[inputArrLength];
+                            
+                            // Ищем потомков у найденного потомка
+                            this._recursiveDeepSearch(outputArr[outputArrLength].child);
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+        };
+
+        TB.prototype.setData = function(arr) {
+
+            this.html                       = '';
+            this.stateMap.outputArr         = [];
+
+            this.stateMap.inputArr          = JSON.parse(JSON.stringify(arr)); // Копирование массива
+            this.stateMap.inputArrLength    = arr.length;
+
+        };
+
+        // Возвращает результат в виде массива
+        // Если метод ранее вызывался, будет возвращать кешированный результат
+        TB.prototype.getTree =  function () {
+
+            var 
+                outputArr = this.stateMap.outputArr;
+            // --
+
+            if(outputArr.length > 0) {
+
+                return outputArr;
+
+            } else {
+
+                this._makeMainTree();
+                this._recursiveDeepSearch(outputArr);
+
+                return outputArr;
+
+            }
+
+        };
+
+        // Возвращает html дерево с тегами
+        // Если метод ранее вызывался, будет возвращать кешированный результат    
+        TB.prototype.showTree = function() {
+
+            if(this.html) {
+
+                return this.html;
+
+            } else {
+
+                this._recursiveMakeVisualTree(
+                    this.getTree()
+                );
+
+                return this.html;
+
+            }
+
+        };
+
+        return TB;
+
+        }());
+</script>
+{% endblock %}
+
 
 {% block content %}
-    <section id="mainInfLab3">
-        <h1>лаб 3</h1>
-        <p>main inf</p>
-    </section>
-    <section id="mainInfLab3">
-        <h1>лаб 3</h1>
-        <p>main inf</p>
-    </section>
+<section id="nameLab2">
+    <h1>Лабораторная работа №2</h1>
+    <p>Логико - вероятностный метод</p>
+</section>
+<section id="mainInfLab2">
+    <h5 style="font-weight: bold;">Цель работы:</h5>
+    <p>Целью работы является освоение методов идентификации, оценки и управления информационными рисками.</p>
+    <h5 style="font-weight: bold;">Задачи:</h5>
+    <p>1. Изучение логико - вероятностного метода (ЛВМ).<br>
+       2. Реализация ЛВМ в виде приложения.</p>
+</section>
+<section id="inputNoInInfMatrixLab2">
+    <h5 style="font-weight: bold;">Введите необходимые значения</h5>
+    <p><label for="textField">Количество неиницируюших вершин:</label>
+        <input type="text" id="numOfNoInNodes"></p>
+    <p><label for="textField">Создать:</label>
+        <button id="createNoInMatrix" onclick="createNoInMatrixFunc()">Создать</button></p>
+    <h5 style="font-weight: bold;">Матрица ввода информации о неинициирующих вершинах:</h5>
+    <div id="NoInMatrixLab2" style="align-content: center;">
+    </div>
+</section>
+<section id="inputInInfMatrixLab2">
+    <h5 style="font-weight: bold;">Введите необходимые значения</h5>
+    <p><label for="textField">Количество иницируюших вершин:</label>
+        <input type="text" id="numOfInNodes"></p>
+    <p><label for="textField">Создать:</label>
+        <button id="createInMatrix" onclick="createInMatrixFunc()">Создать</button></p>
+    <h5 style="font-weight: bold;">Матрица ввода информации об инициирующих вершинах:</h5>
+    <div id="InMatrixLab2" style="align-content: center;">
+    </div>
+</section>
+<section id="drawTreeLeb2">
+    <p><label for="textField">Нарисовать дерево:</label>
+        <button id="drawTree" onclick="drawTreeFunc()">Нарисовать</button></p>
+    <div id="main" class="tree"></div>
+</section>
 {% endblock %}

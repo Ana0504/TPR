@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Doughnut Chart Example - JavaScript Chart by dvxCharts</title>
+    <link rel="stylesheet" type="text/css" href="../../css/dvxCharts.chart.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../themes/base/styles.css" />
+    <script src="../../js/dvxCharts.chart.min.js" type="text/javascript"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <style>
+        .example-container {
+            width: 100%;
+            max-width: 500px;
+            height: 300px;
+        }
+    </style>
+    
+     <style>
+        .mySeries .dvx-chart-series-label {
+            font-size: 15px;
+            fill: white;
+        }
+    </style>
+    <script lang="javascript" type="text/javascript">
+        var chart = new dvxCharts.Chart({
+            title: { text: 'Doughnut Chart' },
+            legend: { title: 'Countries' },
+            animation: { duration: 1 },
+            series: [
+                {
+                    type: 'doughnut',
+                    class: 'mySeries',
+                    innerExtent: 0.5,
+                    outerExtent: 1.0,
+                    labels: {
+                        stringFormat: '%.1f%%',
+                        valueType: 'percentage'
+                    },
+                    data: [['United States', 65], ['United Kingdom', 58], ['Germany', 30],
+                    ['India', 60], ['Russia', 65], ['China', 75]]
+                }
+            ]
+        });
+        chart.write('container');
+    </script>
+
+</head>
+<body>
+    <div>
+        <div id="container" class="example-container">
+        </div>
+    </div>
+</body>
+</html>

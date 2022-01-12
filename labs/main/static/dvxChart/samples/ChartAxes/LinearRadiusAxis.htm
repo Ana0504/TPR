@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Linear Radius Axis Example - JavaScript Chart by dvxCharts</title>
+    <link rel="stylesheet" type="text/css" href="../../css/dvxCharts.chart.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../themes/base/styles.css" />
+    <script src="../../js/dvxCharts.chart.min.js" type="text/javascript"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <style>
+        .example-container {
+            width: 100%;
+            max-width: 500px;
+            height: 300px;
+        }
+    </style>
+    
+    <script lang="javascript" type="text/javascript">
+        var chart = new dvxCharts.Chart({
+            title: {
+                text: 'Linear Radius Axis'
+            },
+            axes: [
+                {
+                    type: 'categoryAngle',
+                    categories: ['France', 'Canada', 'Germany', 'USA', 'Italy', 'Spain', 'Russia', 'Sweden', 'Japan']
+                },
+                {
+                    type: 'linearRadius',
+                    minimum: 0,
+                    maximum: 100,
+                    interval: 20,
+                    innerExtent: 0,
+                    renderStyle: 'polygon',
+                    majorTickMarks: {
+                        visible: true
+                    }
+                }
+            ],
+            series: [
+                {
+                    type: 'radarArea',
+                    data: [65.62, 75.54, 60.45, 34.73, 85.42, 55.9, 63.6, 55.1, 77.2]
+                },
+                {
+                    type: 'radarArea',
+                    data: [76.45, 23.78, 86.45, 30.76, 23.79, 35.67, 89.56, 67.45, 38.98]
+                }
+            ]
+        });
+        chart.write('container');
+    </script>
+
+</head>
+<body>
+    <div>
+        <div id="container" class="example-container">
+        </div>
+    </div>
+</body>
+</html>

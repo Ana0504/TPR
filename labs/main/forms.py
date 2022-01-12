@@ -1,5 +1,5 @@
 from import_export import resources
-from .models import TprLab1Strategy, TprLab1Dohod, TprLab1StrategyExample, TprLab1DohodsExample
+from .models import TprLab1Strategy, TprLab1Dohod, TprLab1StrategyExample, TprLab1DohodsExample, TprLab6StockData
 
 class TprLab1StrategyForm(resources.ModelResource):
     class meta: 
@@ -19,3 +19,8 @@ class TprLab1StrategyExampleForm(resources.ModelResource):
 class TprLab1DohodExampleForm(resources.ModelResource):
     class meta: 
         model = TprLab1DohodsExample
+
+
+class TprLab6StockDataForm(resources.ModelResource):
+    class meta:
+        model = TprLab6StockData

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Data Point Labels Example - JavaScript Chart by dvxCharts</title>
+    <link rel="stylesheet" type="text/css" href="../../css/dvxCharts.chart.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../themes/base/styles.css" />
+    <script src="../../js/dvxCharts.chart.min.js" type="text/javascript"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <style>
+        .example-container {
+            width: 100%;
+            max-width: 500px;
+            height: 300px;
+        }
+    </style>
+    
+    <style>
+        .mySeries .dvx-chart-series-label {
+            fill: red;
+            font-size: 14px;
+        }
+    </style>
+    <script lang="javascript" type="text/javascript">
+        var chart = new dvxCharts.Chart({
+            title: {
+                text: 'Data Point Labels'
+            },
+            animation: {
+                duration: 1
+            },
+            series: [
+                {
+                    type: 'column',
+                    class: 'mySeries',
+                    title: 'Series 1',
+                    data: [['A', 33], ['B', 57], ['C', 33], ['D', 12], ['E', 35], ['F', 7], ['G', 24]],
+                    labels: {
+                        stringFormat: '%d K'
+                    }
+                }
+            ]
+        });
+        chart.write('container');
+    </script>
+
+</head>
+<body>
+    <div>
+        <div id="container" class="example-container"></div>
+    </div>
+</body>
+</html>

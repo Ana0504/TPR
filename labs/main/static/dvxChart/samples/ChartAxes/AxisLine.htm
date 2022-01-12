@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Axis Line Appearance Example - JavaScript Chart by dvxCharts</title>
+    <link rel="stylesheet" type="text/css" href="../../css/dvxCharts.chart.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../themes/base/styles.css" />
+    <script src="../../js/dvxCharts.chart.min.js" type="text/javascript"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <style>
+        .example-container {
+            width: 100%;
+            max-width: 500px;
+            height: 300px;
+        }
+    </style>
+    
+     <style>
+        .yAxis .dvx-chart-axis-main-line {
+            stroke: red;
+            stroke-width: 4;
+        }
+    </style>
+    <script lang="javascript" type="text/javascript">
+        var chart = new dvxCharts.Chart({
+            title: {
+                text: 'Axis Line'
+            },
+            animation: {
+                duration: 1
+            },
+            axes: [
+                {
+                    location: 'left',
+                    class: 'yAxis'
+                }
+            ],
+            series: [
+                {
+                    type: 'column',
+                    data: [['A', 70], ['B', 40], ['C', 85], ['D', 50], ['E', 25], ['F', 40]]
+                }
+            ]
+        });
+        chart.write('container');
+    </script>
+
+</head>
+<body>
+    <div>
+        <div id="container" class="example-container">
+        </div>
+    </div>
+</body>
+</html>

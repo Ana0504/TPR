@@ -54,3 +54,16 @@ class TprLab1DohodsExample(models.Model):
     
     def __str__(self):
             return str(self.numDohodExample)
+
+
+class TprLab6StockData(models.Model):
+    ticker = models.CharField(max_length=20)
+    stockDate = models.DateField()
+    stockOpen = models.PositiveIntegerField()
+    stockHigh = models.PositiveIntegerField()
+    stockLow = models.PositiveIntegerField()
+    stockClose = models.PositiveIntegerField()
+    stockVol =  models.PositiveIntegerField()
+
+    def __str__(self):
+        return str(self.ticker)
