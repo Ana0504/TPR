@@ -1,0 +1,121 @@
+{% extends 'main/ais/shablon_ais.html' %}
+
+{% block title %}Тарифы{% endblock %}
+
+{% block script %}
+<link rel="stylesheet" href="/static/main/ais/css/tarifs_ais_pg.css" type="text/css">
+{% endblock %}
+
+{% block content %}
+<div class="tarifs_content">
+   <section class="tarifs_info">
+      <h3 style="margin-left: 45px; color:white;" class="possible_tarifs_label">Возможные тарифы</h3>
+      <div class="tarifs_info_pict">
+         <div class="tarif">
+            <div class="tarif_1_img"></div>
+            <div id="tarif_info_text">
+               <h3>Premium</h3>
+               <h6>Отделка<br>Ремонтные работы<br>Надежные подрядчики</h6>
+            </div>
+         </div>
+         <div class="tarif">
+            <div class="tarif_2_img"></div>
+            <div id="tarif_info_text">
+               <h3>Elite</h3>
+               <h6>Отделка<br>Ремонтные работы<br>Надежные подрядчики<br>
+                  Посик мебели<br>Консультация с дизайнером интерьера</h6>
+            </div>
+         </div>
+         <div class="tarif">
+            <div class="tarif_3_img"></div>
+            <div id="tarif_info_text">
+               <h3>VIP</h3><h6>Отделка<br>Ремонтные работы<br>Надежные подрядчики<br>
+                  Дизайн интерьера<br>Обстановка квартры мебелью</h6>
+            </div>
+         </div>
+      </div>
+   </section>
+   <section class="tarifs_calculate">
+      <script>
+         var questions = [
+            {
+               text:"Выберите вид объекта",
+               answers:["Квартира","Коммерческий объект","Коттедж"],
+               weights:[10000, 20000, 15000]
+            },
+            {
+               text:"Выберите тип объекта",
+               answers:["Первичное","Вторичное","Строящееся"],
+               weights:[10000, 30000, 20000]
+            },
+            {
+               text:"Выберите тип объекта (1)",
+               answers:["Студия","1-комнатная","2-комнатная","3-комнатная","4-комнатная","5 и более"],
+               weights:[10000, 20000, 30000, 40000, 50000, 70000]
+            },
+            {
+               text:"Выберите понравившийся тариф",
+               answers:["Premium","Elite","VIP"],
+               weights:[50000, 100000, 500000]
+            },
+            {
+               text:"Какой стиль интерьера нравится?",
+               answers:["Современный","Неокласика",
+               "Лофт","Лакшери","Прованс","Хай-Тек",
+               "Минимализм/Скандинавский","Другое"],
+               weights:[1000,1000,1000,1000,1000,1000,1000,1000]
+            },
+            {
+               text:"Когда хотите начать?",
+               answers:["В ближайшее время","в течение месяца","В течение полугода","6-12 месяцев"],
+               weights:[20000, 15000, 10000, 5000]
+            }
+         ]
+         var yourAns = new Array;
+         var score = 0;
+
+         function Engine(question, answer) {yourAns[question]=answer;}
+         
+         function Score() {
+            var ploshad = document.getElementById("myRange").value;
+            var sum = 0;
+            for(var i in yourAns){
+               sum += parseInt(yourAns[i]);
+            }
+            sum += parseInt(300*(parseInt(ploshad)));
+            alert('Предварительная сумма ремонта составляет: ' + sum + ' руб.');
+         }
+
+         function getSliderValFunc(val) {
+            document.getElementById('sliderVal').innerHTML = val      
+         }
+      </script>
+      <h2>Рассчитайте стоимость идеального ремонта вашей квартиры</h2>
+      <form name="quiz">
+      <ol>
+      <script>
+         for(var i=0; i<questions.length; i++){
+            var question = questions[i];
+            document.writeln('<li><span class="quest"><h3>' + question.text + '</h3></span>');
+               for(var j in question.answers){
+                  document.writeln('<div class="input_plus_text"><input type=radio name="q' + i + '" value="' + question.weights[j] +
+	                  '" onClick="Engine(' + i + ', this.value)"><h5>' + question.answers[j] + '<h5><br/></div>');
+               }
+         }
+      </script>
+      </ol>
+      <li><span class="quest"><h3>Укажите площадь объекта</h3></span>'
+      <div class="input_plus_text">
+         <input type="range" min="1" max="500" value="50" class="slider" id="myRange" oninput="getSliderValFunc(this.value)">
+         <div class="sliderValText">
+            <output id="sliderVal">
+            50
+            </output>
+            м²
+         </div>
+      </div>
+      </form>
+      <input id="calc_button" type="button" onClick="Score()" value="Рассчитать" />
+   </section>
+</div>
+{% endblock %}

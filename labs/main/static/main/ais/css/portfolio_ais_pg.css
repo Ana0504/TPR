@@ -1,0 +1,139 @@
+.portfolio_content {
+    z-index: -1;
+    top:0;
+    left:0; 
+    padding-top: 90px;
+    padding-left: 60px;
+    padding-right: 60px;
+    padding-bottom: 90px;
+    min-width:100%;
+    min-height:100%;
+    background-color: #51331c;
+}
+
+.menu_our_work ul{
+    padding: 0;
+    background-color: #d77b05f0;
+    width: max-content;
+    padding: 0 15px;
+    display: inline-flex;
+    margin-right: 15px;
+}
+
+.project_name{
+    display: inline-flex;
+    margin: 0 5px;
+    padding-top: 20px;
+    
+}
+
+
+.menu_our_work ul li{
+    display: inline-flex;
+    width: 200px;
+    height: 200px;
+    padding: 0;
+}
+
+.menu_our_work ul li a{
+    list-style-type: none;
+    text-decoration: none;
+    width: 100%;
+    height: 100%;
+    transition: .5s linear;
+    text-align: center;
+    padding-top: 50px;
+    padding-right: 20px;
+    padding-left: 20px;
+    color: rgba(175, 238, 238, 0);
+}
+
+.our_work_1_li{
+    background: url('https://www.designlinesmagazine.com/cms/media/2013/12/DL-0317-Where-StudioB-1.jpg');
+    background-size: 200px 200px;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.our_work_2_li{
+    background: url('https://www.studiobhome.com/content/homepage/homepage-who-we-are-image-henge-2-right.jpg');
+    background-size: 204px 204px;
+    background-repeat: no-repeat;
+    background-position: center;
+
+}
+
+.our_work_3_li{
+    background: url('https://www.designlinesmagazine.com/cms/media/2017/11/Drechsel_Designlines_1.jpg');
+    background-size: 204px 204px;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.our_work_4_li{
+    background: url('https://www.henge07.com/app/uploads/2019/04/StudioB47_01-1440x950.jpg');
+    background-size: 204px 204px;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.our_work_5_li{
+    background: url('https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/celia-welch-web-1520281330.jpg?crop=1xw:1xh;center,top&resize=480:*');
+    background-size: 200px 200px;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.our_work_6_li{
+    background: url('https://cdn.mos.cms.futurecdn.net/8gWHdR7b37GDtBfzEKe4aL.jpg');
+    background-size: 204px 204px;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.our_work_label{
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.menu_our_work a:hover{
+    background: #3e2e1ce6;
+    color: white;
+}
+
+.portfolio_content section{
+    background-color: #ffefd53b;
+    min-height: max-content;
+    margin-top: 90px;
+    padding: 10px 97px;
+    color: white;
+}
+
+.opisaniye_project img {
+    width: 300px;
+    height: 300px;  
+}
+
+.opisaniye_project{
+    margin: 20px 0; 
+    display: inline-flex;
+    
+}
+
+.opisaniye_project_text{
+    background-color: #3e353599;
+    height: 300px;
+    width: 596px;
+    margin: 0 53px;
+    padding: 0 20px;
+}
+
+.opisaniye_project_text h2{
+    color: #d77b05f0;
+    font-weight: bolder;
+}
+
+section h1{
+    background-color: #d77b05f0;
+    padding: 0 10px;
+}

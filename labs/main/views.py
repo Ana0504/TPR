@@ -150,3 +150,31 @@ def tpr6_upload(request):
             )
             valuesStock.save()
     return render(request, 'main/tpr/tpr5.html', {'stockData' : data},)
+
+
+def main_pg(request):
+    return render(request, 'main/ais/main_pg.html')
+
+
+def otzivi_pg(request):
+    return render(request, 'main/ais/otzivi_pg.html')
+
+
+def portfolio_pg(request):
+    return render(request, 'main/ais/portfolio_pg.html')
+
+
+def tarif_mini_pg(request):
+    return render(request, 'main/ais/tarif_mini_pg.html')
+
+
+def tarif_elite_pg(request):
+    return render(request, 'main/ais/tarif_elite_pg.html')
+
+
+def tarif_premium_pg(request):
+    return render(request, 'main/ais/tarif_premium_pg.html')  
+
+
+def tarifs_pg(request):
+    return render(request, 'main/ais/tarifs_pg.html')  

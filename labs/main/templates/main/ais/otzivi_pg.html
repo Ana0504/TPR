@@ -1,0 +1,36 @@
+{% extends 'main/ais/shablon_ais.html' %}
+
+{% block title %}Отзывы{% endblock %}
+
+{% block script %}
+<link rel="stylesheet" href="/static/main/ais/css/otzivi_ais_pg.css" type="text/css">
+{% endblock %}
+
+{% block content %}
+<div class="otzivi_content">
+   <section class="otzizvi_pict_plus_text">
+        <h3 style="margin-left: 45px; color:white;" class="otzivi_label">Что о нас говорят клиенты</h3>
+        <div id="otzivi_part">
+            <div id="otziv_1">
+                <div class="otziv_1_img"></div>
+                <div id="otziv_info_text">
+                <h3 style="color: white;">Светлана</h3>
+                <h6>Очень долго выбирала компанию для ремонта
+                    и не прогадала! Рада, что обратилась к вам.
+                    Всего за 100к сделали идеальную отделку и
+                    полностью восстановили сантехнику. Рекомендую!</h6>
+                </div>
+            </div>
+            <div id="otziv_2">
+                <div class="otziv_2_img"></div>
+                <div id="otziv_info_text">
+                <h3 style="color: white;">Алекксандр</h3>
+                <h6>Ребята - молодцы! Всё сделали быстро и всрок,
+                    наняли хороший подряд. А главное: ни одна труба
+                    за год ещё не протекла после ремонта.</h6>
+                </div>
+            </div>
+        </div>
+   </section>
+</div>
+{% endblock %}

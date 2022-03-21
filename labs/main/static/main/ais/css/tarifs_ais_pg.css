@@ -1,0 +1,139 @@
+.tarifs_content {
+    z-index: -1;
+    top:0;
+    left:0; 
+    padding-top: 90px;
+    padding-left: 60px;
+    padding-right: 60px;
+    padding-bottom: 60px;
+    min-width:100%;
+    min-height:100%;
+    background-color: #51331c;
+}
+
+.tarifs_info_pict, .input_plus_text{
+    display: inline-flex;
+}
+
+.tarifs_info_pict .tarif{
+    width: 320px;
+    height: 350px;
+    margin-left: 45px;
+    margin-top: 15px;
+    background-color: #d77b05f0;
+}
+.tarif_1_img{
+    background: url('https://i.pinimg.com/474x/41/e8/37/41e837c05eab021c366d2a0fc0dd8190.jpg');
+    background-size: 200px 300px;
+    width: 220px;
+    height: 290px;
+    background-repeat: no-repeat;
+    background-position: center;
+    margin-left: 50px;
+    z-index: -1;
+}
+
+.tarif_2_img{
+    background: url('https://i.pinimg.com/564x/56/cc/03/56cc0326a0db34afc22d282e7d58a786.jpg');
+    background-size: 200px 300px;
+    width: 220px;
+    height: 290px;
+    background-repeat: no-repeat;
+    background-position: center;
+    margin-left: 50px;
+    z-index: -1;
+}
+
+.tarif_3_img{
+    background: url('https://i.pinimg.com/474x/be/f1/fe/bef1fee1067e22fadb55cc2f2230a7e0.jpg');
+    background-size: 200px 300px;
+    width: 220px;
+    height: 290px;
+    background-repeat: no-repeat;
+    background-position: center;
+    margin-left: 50px;
+    z-index: -1;
+}
+
+#tarif_info_text{
+    background: #1a1006a3;
+    width: 240px;
+    height: 130px;
+    margin-top: -70px;
+    margin-left: 40px;
+    text-align: center;
+    color: white;
+}
+
+h6{
+    font-size: 12px;
+}
+
+.tarifs_info{
+    padding-bottom: 45px;
+    border-bottom: solid 3px;
+    border-color: #160a05de;
+}
+
+.tarifs_calculate{
+    margin-top: 45px;
+}
+
+.tarifs_calculate h2{
+    color: white;
+}
+
+.tarifs_calculate li{
+    background: #d77b05f0;
+    list-style-type: none;
+    margin-bottom: 20px;
+    /* z-index: -1; */
+}
+
+ol{
+    padding: 0;
+}
+
+.tarifs_calculate h3{
+    background: #160a05de;
+    /* color: #d77b05f0; */
+    color: white;
+
+    margin: 15px 20px;
+    padding: 10px 20px;
+}
+
+.tarifs_calculate input{
+    margin-left: 40px;
+    margin-right: 20px;
+    margin-bottom: 10px;
+}
+
+#calc_button{
+    background: #d77b05f0;
+    left: 50%;
+    position: relative;
+    margin: 0;
+    border: none;
+    transform: translate(-50%, 0);
+    padding: 10px 30px;
+    font-size: 20px;
+}
+
+/* .slider{
+    box-shadow: 0px 0px 0px #000000;
+    border: 2px solid #C9AC7A;
+    height: 15px;
+    width: 15px;
+    border-radius: 0px;
+    background: #FFFFFF;
+    cursor: pointer;
+} */
+
+#myRange{
+    width: 400px;
+}
+
+.sliderValText{
+    font-size: 18px;
+}
